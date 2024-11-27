@@ -1,0 +1,145 @@
+ :root {
+  --page-width: 1300px;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+h1 {
+  font-size: 54px;
+  margin: 0 0 10px;
+}
+
+h2 {
+  margin-top: 40px;
+  font-size: 26px;
+}
+
+h3 {
+  font-size: 16px;
+  opacity: 0.64;
+  margin: 58px 0 15px;
+  text-transform: uppercase;
+}
+h2:first-child, h3:first-child { margin-top: 0; }
+
+h1 { font-weight: 300; }  
+h2 { font-weight: 300; }  
+h3 { font-weight: 700; }  
+
+p {
+  margin: 0 0 15px 0;
+}
+
+blockquote {
+  font-size: 28px;
+  line-height: 1.4;
+  font-weight: 300;
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+ul li:before { content: "- "; }
+
+b, strong { font-weight: 700; }
+
+a { color: white; }
+a.secret { text-decoration: none; }
+a.secret:hover { text-decoration: underline; }
+
+
+body {
+  background: #6E2AA6;
+  color: white;
+}
+
+body.dark { background: hsl(0, 10.8%, 12.7%); }
+
+header {
+  padding: 40px;
+  text-align: center;
+}
+
+.post {
+  max-width: 730px;
+  margin: 0 auto 40px;
+  padding: 0 20px;
+}
+.post p {
+  font-size: 20px;
+  margin: 0 0 30px 0;
+  line-height: 1.7;
+}
+.post img {
+  max-width: 80%;
+  margin: 0 auto 30px auto;
+  display: block;
+  border-radius: 5px;
+}
+.post .caption {
+  font-size: 18px;
+  opacity: 0.64;
+  margin: -15px 0 30px 0;
+  text-align: center;
+}
+
+.home {
+  width: var(--page-width);
+  margin: auto;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.portrait, .content {
+  width: 100%;
+}
+
+.portrait { text-align: center; }
+.portrait img {
+  border-radius: 50%;
+  max-width: 300px;
+}
+
+img.stella {
+  border-radius: 13px;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.body {
+  width: var(--page-width);
+  margin: 20px auto;
+}
+
+@media (max-width: 1300px) {
+  .home {
+    width: auto;
+    flex-direction: column;
+  }
+  .content { padding: 40px 20px; }
+  .body {
+    width: auto;
+    padding: 0 20px;
+    margin: 0;
+  }
+}
+
+@media (max-width: 500px) {
+  header { padding: 25px 20px 20px; }
+  h1 { font-size: 37px; }
+  .portrait img {
+    border-radius: 0px;
+    width: 100%;
+    max-width: 100%;
+  }
+}
