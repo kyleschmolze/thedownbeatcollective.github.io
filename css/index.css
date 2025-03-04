@@ -57,6 +57,15 @@ a { color: white; }
 a.secret { text-decoration: none; }
 a.secret:hover { text-decoration: underline; }
 
+a.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #25FFC2;
+  color: black;
+  border-radius: 5px;
+  text-decoration: none;
+  margin: 10px 0;
+}
 
 body {
   background: #6E2AA6;
