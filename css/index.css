@@ -1,5 +1,5 @@
  :root {
-  --page-width: 1300px;
+  --page-width: 1100px;
 }
 
 * { box-sizing: border-box; }
@@ -64,7 +64,7 @@ a.btn {
   color: black;
   border-radius: 5px;
   text-decoration: none;
-  margin: 10px 0;
+  margin: 5px 0;
 }
 
 body {
@@ -109,11 +109,15 @@ header {
   flex-direction: row-reverse;
 }
 
-.portrait, .content {
-  width: 100%;
+.content {
+  flex-grow: 1;
 }
 
-.portrait { text-align: center; }
+.portrait {
+  padding: 0 70px 0 70px;
+  text-align: center;
+}
+
 .portrait img {
   border-radius: 50%;
   max-width: 300px;
@@ -130,7 +134,7 @@ img.stella {
   margin: 20px auto;
 }
 
-@media (max-width: 1300px) {
+@media (max-width: 1100px) {
   .home {
     width: auto;
     flex-direction: column;
