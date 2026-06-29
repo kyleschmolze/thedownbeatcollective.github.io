@@ -19,6 +19,8 @@ html {
   line-height: 1.4;
 }
 
+html, body { overflow-x: hidden; }
+
 h1, h2, h3 {
   font-family: 'Feeling Passionate', cursive;
 }
@@ -192,6 +194,9 @@ img.stella {
 @media (max-width: 900px) {
   .birds-mobile {
     display: block;
+  }
+  .birds {
+    display: none;
   }
   header { padding-bottom: 0; }
 }
