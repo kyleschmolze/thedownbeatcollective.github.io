@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Calendar - The Downbeat Collective</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="keywords" content="The Downbeat Collective">
+		<meta name="author" content="The Downbeat Collective">
+
+		<link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,700" rel="stylesheet">
+		<link rel="stylesheet" href="../css/normalize.css" />
+		<link rel="stylesheet" href="../css/index.css" />
+		<style>
+			body { background: #f3f6fb url('../img/blue-splotch.png') no-repeat center top; background-size: cover; min-height: 100vh; }
+			header { padding-bottom: 10px; }
+			header h1 { font-size: 48px; }
+			header .back { font-size: 18px; font-weight: normal; }
+			.cal { max-width: 640px; margin: 0 auto; padding: 0 16px 40px; }
+			.cal-month {
+				font-family: 'Feeling Passionate', cursive; font-weight: normal;
+				font-size: 32px; margin: 32px 0 12px; opacity: 1;
+			}
+			.cal-card {
+				display: flex; gap: 14px; background: rgba(255,255,255,.94);
+				border: 1px solid #bfcbda88; border-radius: 12px;
+				padding: 14px; margin-bottom: 12px;
+				box-shadow: 0 2px 8px rgba(34,34,34,.06);
+			}
+			.cal-date {
+				flex: 0 0 56px; height: 64px; border-radius: 10px; background: #6D327C; color: #fff;
+				text-align: center; display: flex; flex-direction: column; justify-content: center;
+				line-height: 1.1;
+			}
+			.cal-date .dow { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; opacity: .85; }
+			.cal-date .day { font-size: 26px; }
+			.cal-body { min-width: 0; flex: 1; }
+			.cal-title { font-size: 18px; margin: 0 0 4px; overflow-wrap: anywhere; }
+			.cal-meta { font-size: 14px; font-weight: 400; color: #555; margin: 2px 0; overflow-wrap: anywhere; }
+			.cal-meta .ico { display: inline-block; width: 1.3em; }
+			.cal-desc { font-size: 14px; font-weight: 400; color: #444; margin: 8px 0 0; white-space: pre-line; overflow-wrap: anywhere; }
+			.cal-desc.clamp { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+			.cal-more { background: none; border: 0; padding: 0; margin-top: 4px; font: inherit; font-size: 14px; color: #6D327C; cursor: pointer; }
+			.cal-actions { margin-top: 10px; }
+			.cal-actions a.btn { font-size: 14px; padding: 6px 14px; margin: 0 6px 0 0; }
+			.cal-status { text-align: center; padding: 30px 0; font-weight: 400; }
+			.cal-status a { color: #6D327C; }
+			@media (max-width: 420px) {
+				header { padding: 24px 16px 0; }
+				header h1 { font-size: 40px; }
+				.cal-card { padding: 12px; gap: 12px; }
+				.cal-date { flex-basis: 50px; }
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1>Calendar</h1>
+			<a class="back" href="../">&larr; The Downbeat Collective</a>
+		</header>
+		<main class="cal" id="cal">
+			<div class="cal-status">Loading events&hellip;</div>
+		</main>
+
+		<script>
+		(function () {
+			var CAL_ID = '06093b94873d5bcca7b4acaebde9cd8b7e8f40822f3dce5a3eccfdf84d162930@group.calendar.google.com';
+			var DISPLAY_TZ = 'America/Los_Angeles';
+			var ICS_URL = 'https://calendar.google.com/calendar/ical/' + encodeURIComponent(CAL_ID) + '/public/basic.ics';
+			var HORIZON_DAYS = 180;
+			var root = document.getElementById('cal');
+
+			// Google's ICS endpoint has no CORS headers, so fall back to proxies if the direct fetch is blocked.
+			var SOURCES = [
+				ICS_URL,
+				'https://corsproxy.io/?' + encodeURIComponent(ICS_URL),
+				'https://api.allorigins.win/raw?url=' + encodeURIComponent(ICS_URL)
+			];
+
+			function fetchIcs() {
+				return SOURCES.reduce(function (p, url) {
+					return p.catch(function () {
+						return fetch(url).then(function (r) {
+							if (!r.ok) throw new Error('HTTP ' + r.status);
+							return r.text();
+						}).then(function (t) {
+							if (t.indexOf('BEGIN:VCALENDAR') < 0) throw new Error('Not an ICS file');
+							return t;
+						});
+					});
+				}, Promise.reject());
+			}
+
+			// ---------- ICS parsing ----------
+			function unfold(text) { return text.replace(/\r?\n[ \t]/g, '').split(/\r?\n/); }
+
+			function unescapeText(s) {
+				return s.replace(/\\n/gi, '\n').replace(/\\([,;\\])/g, '$1');
+			}
+
+			function parseLine(line) {
+				var i = 0, inQ = false;
+				for (; i < line.length; i++) {
+					if (line[i] === '"') inQ = !inQ;
+					else if (line[i] === ':' && !inQ) break;
+				}
+				var head = line.slice(0, i).split(';'), params = {};
+				head.slice(1).forEach(function (p) {
+					var kv = p.split('='); params[kv[0].toUpperCase()] = (kv[1] || '').replace(/"/g, '');
+				});
+				return { name: head[0].toUpperCase(), params: params, value: line.slice(i + 1) };
+			}
+
+			function parseEvents(text) {
+				var events = [], cur = null;
+				unfold(text).forEach(function (line) {
+					if (line === 'BEGIN:VEVENT') { cur = { exdates: [] }; return; }
+					if (line === 'END:VEVENT') { if (cur) events.push(cur); cur = null; return; }
+					if (!cur || !line) return;
+					var p = parseLine(line);
+					switch (p.name) {
+						case 'UID': cur.uid = p.value; break;
+						case 'SUMMARY': cur.summary = unescapeText(p.value); break;
+						case 'DESCRIPTION': cur.description = unescapeText(p.value); break;
+						case 'LOCATION': cur.location = unescapeText(p.value); break;
+						case 'URL': cur.url = p.value; break;
+						case 'STATUS': cur.status = p.value; break;
+						case 'RRULE': cur.rrule = p.value; break;
+						case 'DTSTART': cur.start = parseDate(p); break;
+						case 'DTEND': cur.end = parseDate(p); break;
+						case 'RECURRENCE-ID': cur.recurrenceId = parseDate(p); break;
+						case 'EXDATE':
+							p.value.split(',').forEach(function (v) {
+								cur.exdates.push(parseDate({ params: p.params, value: v }).date.getTime());
+							});
+							break;
+					}
+				});
+				return events;
+			}
+
+			// Offset (ms) of a timezone from UTC at a given instant.
+			function tzOffset(tz, utcMs) {
+				var f = new Intl.DateTimeFormat('en-US', {
+					timeZone: tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric',
+					hour: 'numeric', minute: 'numeric', second: 'numeric'
+				});
+				var o = {};
+				f.formatToParts(new Date(utcMs)).forEach(function (x) { o[x.type] = +x.value; });
+				return Date.UTC(o.year, o.month - 1, o.day, o.hour, o.minute, o.second) - Math.floor(utcMs / 1000) * 1000;
+			}
+
+			function zonedToDate(y, mo, d, h, mi, s, tz) {
+				var guess = Date.UTC(y, mo, d, h, mi, s);
+				var off = tzOffset(tz, guess);
+				var res = guess - off;
+				var off2 = tzOffset(tz, res);
+				return new Date(guess - off2);
+			}
+
+			function parseDate(p) {
+				var v = p.value, m = v.match(/^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})(Z?))?$/);
+				if (!m) return { date: new Date(NaN), allDay: false };
+				var y = +m[1], mo = +m[2] - 1, d = +m[3];
+				if (m[4] === undefined) {
+					// all-day: anchor at local midnight in display tz
+					return { date: zonedToDate(y, mo, d, 0, 0, 0, DISPLAY_TZ), allDay: true };
+				}
+				var h = +m[4], mi = +m[5], s = +m[6];
+				if (m[7] === 'Z') return { date: new Date(Date.UTC(y, mo, d, h, mi, s)), allDay: false };
+				return { date: zonedToDate(y, mo, d, h, mi, s, p.params.TZID || DISPLAY_TZ), allDay: false };
+			}
+
+			// ---------- Recurrence expansion ----------
+			var DAYS = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+
+			// Wall-clock parts of an instant in display tz.
+			function parts(date) {
+				var o = {};
+				new Intl.DateTimeFormat('en-US', {
+					timeZone: DISPLAY_TZ, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric',
+					hour: 'numeric', minute: 'numeric', second: 'numeric'
+				}).formatToParts(date).forEach(function (x) { o[x.type] = +x.value; });
+				return o;
+			}
+
+			function expand(ev, from, to) {
+				var dur = (ev.end ? ev.end.date - ev.start.date : 0);
+				if (!ev.rrule) return [ev.start.date];
+				var r = {};
+				ev.rrule.split(';').forEach(function (kv) { var a = kv.split('='); r[a[0]] = a[1]; });
+				var interval = +r.INTERVAL || 1, count = r.COUNT ? +r.COUNT : Infinity;
+				var until = r.UNTIL ? parseDate({ params: {}, value: r.UNTIL }).date : null;
+				var byday = r.BYDAY ? r.BYDAY.split(',') : null;
+				var w = parts(ev.start.date);
+				var out = [], n = 0, guard = 0;
+				// iterate in wall-clock UTC space so DST doesn't shift local times
+				var base = Date.UTC(w.year, w.month - 1, w.day);
+				var DAY = 864e5;
+
+				function emit(utcMidnight) {
+					var d = new Date(utcMidnight);
+					var inst = ev.start.allDay
+						? zonedToDate(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 0, 0, 0, DISPLAY_TZ)
+						: zonedToDate(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), w.hour, w.minute, w.second, DISPLAY_TZ);
+					if (inst < ev.start.date) return true;
+					if (until && inst > until) return false;
+					if (++n > count) return false;
+					if (inst > to) return false;
+					if (ev.exdates.indexOf(inst.getTime()) < 0 && inst.getTime() + dur >= from.getTime()) out.push(inst);
+					return true;
+				}
+
+				var freq = r.FREQ;
+				if (freq === 'DAILY') {
+					for (var t = base; guard++ < 5000; t += DAY * interval) if (!emit(t)) break;
+				} else if (freq === 'WEEKLY') {
+					var startDow = new Date(base).getUTCDay();
+					var days = (byday || [DAYS[startDow]]).map(function (d) { return DAYS.indexOf(d.slice(-2)); }).sort();
+					var weekStart = base - startDow * DAY, go = true;
+					for (; go && guard++ < 2000; weekStart += 7 * DAY * interval) {
+						for (var i = 0; i < days.length; i++) {
+							if (!emit(weekStart + days[i] * DAY)) { go = false; break; }
+						}
+					}
+				} else if (freq === 'MONTHLY') {
+					for (var k = 0; guard++ < 1000; k += interval) {
+						var first = Date.UTC(w.year, w.month - 1 + k, 1), cand = null;
+						var fd = new Date(first), y = fd.getUTCFullYear(), mo = fd.getUTCMonth();
+						if (byday && byday[0].length > 2) {
+							var nth = parseInt(byday[0], 10), dow = DAYS.indexOf(byday[0].slice(-2));
+							if (nth > 0) {
+								cand = first + (((dow - fd.getUTCDay() + 7) % 7) + (nth - 1) * 7) * DAY;
+							} else {
+								var last = Date.UTC(y, mo + 1, 0), ld = new Date(last).getUTCDay();
+								cand = last - ((ld - dow + 7) % 7) * DAY + (nth + 1) * 7 * DAY;
+							}
+							if (new Date(cand).getUTCMonth() !== mo) continue;
+						} else {
+							cand = Date.UTC(y, mo, r.BYMONTHDAY ? +r.BYMONTHDAY : w.day);
+							if (new Date(cand).getUTCMonth() !== mo) continue;
+						}
+						if (!emit(cand)) break;
+					}
+				} else if (freq === 'YEARLY') {
+					for (var yy = 0; guard++ < 200; yy += interval) {
+						if (!emit(Date.UTC(w.year + yy, w.month - 1, w.day))) break;
+					}
+				} else {
+					out.push(ev.start.date);
+				}
+				return out;
+			}
+
+			function buildOccurrences(events) {
+				var now = new Date(), from = new Date(now.getTime() - 864e5 * 0), to = new Date(now.getTime() + HORIZON_DAYS * 864e5);
+				var overrides = {};
+				events.forEach(function (e) {
+					if (e.recurrenceId) overrides[e.uid + '|' + e.recurrenceId.date.getTime()] = e;
+				});
+				var occ = [];
+				events.forEach(function (e) {
+					if (!e.start || isNaN(e.start.date) || e.status === 'CANCELLED') return;
+					if (e.recurrenceId) {
+						pushOcc(e, e.start.date);
+						return;
+					}
+					expand(e, from, to).forEach(function (d) {
+						var o = overrides[e.uid + '|' + d.getTime()];
+						if (o) return; // override added separately
+						pushOcc(e, d);
+					});
+				});
+				function pushOcc(e, start) {
+					var dur = e.end ? e.end.date - e.start.date : 0;
+					var end = new Date(start.getTime() + dur);
+					// all-day DTEND is exclusive
+					var effEnd = e.start.allDay ? new Date(end.getTime() - 1) : end;
+					if (effEnd < from || start > to) return;
+					occ.push({ ev: e, start: start, end: end, allDay: e.start.allDay });
+				}
+				occ.sort(function (a, b) { return a.start - b.start; });
+				return occ;
+			}
+
+			// ---------- Rendering ----------
+			function fmt(date, opts) {
+				opts.timeZone = DISPLAY_TZ;
+				return new Intl.DateTimeFormat('en-US', opts).format(date);
+			}
+
+			function el(tag, cls, text) {
+				var n = document.createElement(tag);
+				if (cls) n.className = cls;
+				if (text != null) n.textContent = text;
+				return n;
+			}
+
+			function linkify(container, text) {
+				var re = /(https?:\/\/[^\s<>"]+)/g, last = 0, m;
+				while ((m = re.exec(text))) {
+					container.appendChild(document.createTextNode(text.slice(last, m.index)));
+					var a = el('a', null, m[1]); a.href = m[1]; a.target = '_blank'; a.rel = 'noopener';
+					container.appendChild(a);
+					last = m.index + m[1].length;
+				}
+				container.appendChild(document.createTextNode(text.slice(last)));
+			}
+
+			function stripHtml(s) {
+				return s.replace(/<br\s*\/?>/gi, '\n').replace(/<\/(p|div|li)>/gi, '\n').replace(/<[^>]+>/g, '')
+					.replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+					.replace(/\n{3,}/g, '\n\n').trim();
+			}
+
+			function timeText(o) {
+				if (o.allDay) return 'All day';
+				var t = { hour: 'numeric', minute: '2-digit' };
+				var s = fmt(o.start, t);
+				if (o.end > o.start) {
+					var sameDay = fmt(o.start, { dateStyle: 'short' }) === fmt(o.end, { dateStyle: 'short' });
+					s += ' – ' + (sameDay ? fmt(o.end, t) : fmt(o.end, { weekday: 'short', hour: 'numeric', minute: '2-digit' }));
+				}
+				return s;
+			}
+
+			function gcalLink(o) {
+				var f = function (d) { return d.toISOString().replace(/[-:]|\.\d{3}/g, ''); };
+				var dates = o.allDay
+					? o.start.toISOString().slice(0, 10).replace(/-/g, '') + '/' + o.end.toISOString().slice(0, 10).replace(/-/g, '')
+					: f(o.start) + '/' + f(o.end);
+				return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(o.ev.summary || '') +
+					'&dates=' + dates + '&location=' + encodeURIComponent(o.ev.location || '') +
+					'&details=' + encodeURIComponent(o.ev.description ? stripHtml(o.ev.description) : '');
+			}
+
+			function card(o) {
+				var e = o.ev, c = el('article', 'cal-card');
+				var d = el('div', 'cal-date');
+				d.appendChild(el('span', 'dow', fmt(o.start, { weekday: 'short' })));
+				d.appendChild(el('span', 'day', fmt(o.start, { day: 'numeric' })));
+				c.appendChild(d);
+
+				var b = el('div', 'cal-body');
+				b.appendChild(el('h3', 'cal-title', e.summary || '(No title)'));
+				b.firstChild.style.cssText = 'font-family:Quicksand,sans-serif;opacity:1;text-transform:none;margin:0 0 4px';
+				var tm = el('p', 'cal-meta'); tm.appendChild(el('span', 'ico', '🕒')); tm.appendChild(document.createTextNode(timeText(o)));
+				b.appendChild(tm);
+				if (e.location) {
+					var lm = el('p', 'cal-meta'); lm.appendChild(el('span', 'ico', '📍'));
+					var la = el('a', null, e.location);
+					la.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(e.location);
+					la.target = '_blank'; la.rel = 'noopener';
+					lm.appendChild(la); b.appendChild(lm);
+				}
+				if (e.description) {
+					var desc = el('p', 'cal-desc clamp');
+					linkify(desc, stripHtml(e.description));
+					b.appendChild(desc);
+					var btn = el('button', 'cal-more', 'Show more');
+					btn.type = 'button';
+					btn.onclick = function () {
+						var clamped = desc.classList.toggle('clamp');
+						btn.textContent = clamped ? 'Show more' : 'Show less';
+					};
+					b.appendChild(btn);
+					requestAnimationFrame(function () {
+						if (desc.scrollHeight <= desc.clientHeight + 1) btn.remove();
+					});
+				}
+				var act = el('div', 'cal-actions');
+				var add = el('a', 'btn', 'Add to calendar'); add.href = gcalLink(o); add.target = '_blank'; add.rel = 'noopener';
+				act.appendChild(add);
+				b.appendChild(act);
+				c.appendChild(b);
+				return c;
+			}
+
+			function render(occ) {
+				root.innerHTML = '';
+				if (!occ.length) {
+					var s = el('div', 'cal-status', 'No upcoming events right now. Check back soon!');
+					root.appendChild(s); return;
+				}
+				var lastMonth = '';
+				occ.forEach(function (o) {
+					var m = fmt(o.start, { month: 'long', year: 'numeric' });
+					if (m !== lastMonth) {
+						root.appendChild(el('h2', 'cal-month', m));
+						lastMonth = m;
+					}
+					root.appendChild(card(o));
+				});
+				var foot = el('div', 'cal-status');
+				foot.appendChild(document.createTextNode('Times shown in Pacific Time. '));
+				var a = el('a', null, 'Open in Google Calendar');
+				a.href = 'https://calendar.google.com/calendar/u/1/embed?src=' + encodeURIComponent(CAL_ID) + '&ctz=' + DISPLAY_TZ;
+				foot.appendChild(a);
+				root.appendChild(foot);
+			}
+
+			fetchIcs().then(function (text) {
+				render(buildOccurrences(parseEvents(text)));
+			}).catch(function () {
+				root.innerHTML = '';
+				var s = el('div', 'cal-status', 'Sorry, we couldn’t load the calendar. ');
+				var a = el('a', null, 'View it on Google Calendar');
+				a.href = 'https://calendar.google.com/calendar/u/1/embed?src=' + encodeURIComponent(CAL_ID) + '&ctz=' + DISPLAY_TZ;
+				s.appendChild(a); root.appendChild(s);
+			});
+		})();
+		</script>
+	</body>
+</html>
