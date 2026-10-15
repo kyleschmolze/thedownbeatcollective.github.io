@@ -68,22 +68,25 @@
 			var HORIZON_DAYS = 180;
 			var root = document.getElementById('cal');
 
-			// Google's ICS endpoint sends no CORS headers, so browsers can't read it directly.
-			// A GitHub Action (.github/workflows/sync-calendar.yml) mirrors it to events.ics.
-			var SOURCES = ['events.ics'];
+			// Neither feed sends CORS headers, so browsers can't read them directly.
+			// A GitHub Action (.github/workflows/sync-calendar.yml) mirrors them next to this page.
+			var SOURCES = ['events.ics', 'luma.ics'];
 
+			// Resolves with the ICS text of every feed that loaded; rejects only if none did.
 			function fetchIcs() {
-				return SOURCES.reduce(function (p, url) {
-					return p.catch(function () {
-						return fetch(url, { cache: 'no-cache' }).then(function (r) {
-							if (!r.ok) throw new Error('HTTP ' + r.status);
-							return r.text();
-						}).then(function (t) {
-							if (t.indexOf('BEGIN:VCALENDAR') < 0) throw new Error('Not an ICS file');
-							return t;
-						});
-					});
-				}, Promise.reject());
+				return Promise.all(SOURCES.map(function (url) {
+					return fetch(url, { cache: 'no-cache' }).then(function (r) {
+						if (!r.ok) throw new Error('HTTP ' + r.status);
+						return r.text();
+					}).then(function (t) {
+						if (t.indexOf('BEGIN:VCALENDAR') < 0) throw new Error('Not an ICS file');
+						return t;
+					}).catch(function () { return null; });
+				})).then(function (texts) {
+					texts = texts.filter(Boolean);
+					if (!texts.length) throw new Error('No calendar feeds loaded');
+					return texts;
+				});
 			}
 
 			// ---------- ICS parsing ----------
@@ -394,8 +397,10 @@
 				root.appendChild(foot);
 			}
 
-			fetchIcs().then(function (text) {
-				render(buildOccurrences(parseEvents(text)));
+			fetchIcs().then(function (texts) {
+				var events = [];
+				texts.forEach(function (t) { events = events.concat(parseEvents(t)); });
+				render(buildOccurrences(events));
 			}).catch(function () {
 				root.innerHTML = '';
 				var s = el('div', 'cal-status', 'Sorry, we couldn’t load the calendar. ');

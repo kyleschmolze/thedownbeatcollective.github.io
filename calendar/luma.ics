@@ -1,0 +1,794 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Luma//The Downbeat//EN
+X-WR-CALNAME:The Downbeat
+X-WR-CALDESC:Luma Calendar
+REFRESH-INTERVAL;VALUE=DURATION:PT12H
+X-PUBLISHED-TTL:PT12H
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART:20260106T020000Z
+DTEND:20260106T043000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-hACquK4uDp3XTfR@events.lu.ma
+SUMMARY:The Downbeat - Unbroken Flow
+DESCRIPTION:Get up-to-date information at: https://luma.com/vjmf0bt3\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, California\nUnited States\n\nHoste
+ d by The Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260113T020000Z
+DTEND:20260113T043000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-iLhzQdFKLQFqWHR@events.lu.ma
+SUMMARY:The Downbeat - Singing for Justice (w/ BenjaSoul)
+DESCRIPTION:Get up-to-date information at: https://luma.com/a85krubf\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, California\nUnited States\n\nHoste
+ d by The Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260120T020000Z
+DTEND:20260120T043000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-NrB6i18LFYFHzfA@events.lu.ma
+SUMMARY:The Downbeat - Vocal River
+DESCRIPTION:Get up-to-date information at: https://luma.com/19nxo6up\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, California\nUnited States\n\nHoste
+ d by The Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260127T020000Z
+DTEND:20260127T043000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-gQD1DWBn127XYvU@events.lu.ma
+SUMMARY:The Downbeat - Hope in Darkness (w/ Briony Greenhill)
+DESCRIPTION:Get up-to-date information at: https://luma.com/l02gpedt\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, California\nUnited States\n\nHoste
+ d by The Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260203T020000Z
+DTEND:20260203T043000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-afoIShrL3qcFECG@events.lu.ma
+SUMMARY:The Downbeat - Vocal River
+DESCRIPTION:Get up-to-date information at: https://luma.com/s0se9yy9\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, California\nUnited States\n\nHoste
+ d by The Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260210T020000Z
+DTEND:20260210T043000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-n4lhU606pTZtP2u@events.lu.ma
+SUMMARY:The Downbeat - Flow & Skills
+DESCRIPTION:Get up-to-date information at: https://luma.com/2n3wcenb\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, California\nUnited States\n\nHoste
+ d by The Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260217T020000Z
+DTEND:20260217T043000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-Zxt0UR1EN0VG7Hk@events.lu.ma
+SUMMARY:The Downbeat - Unbroken Flow
+DESCRIPTION:Get up-to-date information at: https://luma.com/ww80ti41\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, California\nUnited States\n\nHoste
+ d by The Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260224T020000Z
+DTEND:20260224T043000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-PXNIeaypxANY2Ce@events.lu.ma
+SUMMARY:The Downbeat - BatuKatu: Body Music from Brazil (w/ Elinka)
+DESCRIPTION:Get up-to-date information at: https://luma.com/jbhytjhm\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, California\nUnited States\n\nHoste
+ d by The Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260301
+DTEND;VALUE=DATE:20260323
+ORGANIZER;CN="Luma Event":MAILTO:calendar-invite@lu.ma
+UID:evt-dEJjbBfugMeemAl@events.lu.ma
+SUMMARY:Deeper Waters: A 3-part Vocal River Series
+DESCRIPTION:Get up-to-date information at: https://luma.com/yhk4sqqi\n\nAd
+ dress:\nWildcat Studio\nBerkeley, California\nUnited States
+LOCATION:Wildcat Studio, 2525 Eighth St, Berkeley, CA 94710, USA
+GEO:37.8597773;-122.2924654
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260303T020000Z
+DTEND:20260303T050000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-EDEkQ0u4kz6nt7O@events.lu.ma
+SUMMARY:The Downbeat w/ guest facilitator Rhiannon
+DESCRIPTION:Get up-to-date information at: https://luma.com/n2ilq126\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, California\nUnited States\n\nHoste
+ d by The Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260317T010000Z
+DTEND:20260317T033000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-GDV6oERWRnJFEBb@events.lu.ma
+SUMMARY:[NEW LOCATION] Zuza from Música do Círculo leads The Downbeat
+DESCRIPTION:Get up-to-date information at: https://luma.com/jijeg518\n\nAd
+ dress:\nCheck event page for more details.\n\nHosted by The Downbeat
+LOCATION:https://luma.com/event/evt-GDV6oERWRnJFEBb
+GEO:37.88011836993168;-122.26052128062528
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260324T010000Z
+DTEND:20260324T033000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-rkpbfndPA5XEhGl@events.lu.ma
+SUMMARY:The Downbeat - Vocal River
+DESCRIPTION:Get up-to-date information at: https://luma.com/rfclqsey\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, California\nUnited States\n\nHoste
+ d by The Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260331T010000Z
+DTEND:20260331T033000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-Dug0macrISvsbpx@events.lu.ma
+SUMMARY:The Downbeat - See You On The Other Side ✨
+DESCRIPTION:Get up-to-date information at: https://luma.com/ryok21f1\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, California\nUnited States\n\nHoste
+ d by The Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260407T010000Z
+DTEND:20260407T033000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-ehQv5lw1xfhvBoi@events.lu.ma
+SUMMARY:The Downbeat - Circle Singing Round Robin
+DESCRIPTION:Get up-to-date information at: https://luma.com/j60i4w60\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, California\nUnited States\n\nHoste
+ d by The Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260414T010000Z
+DTEND:20260414T033000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-1bHqdxR3eHW5Qsy@events.lu.ma
+SUMMARY:The Downbeat - Vocal Jamming
+DESCRIPTION:Get up-to-date information at: https://luma.com/lggpf1rf\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, California\nUnited States\n\nHoste
+ d by The Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260421T010000Z
+DTEND:20260421T033000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-zTKHDe7GqTFvgcv@events.lu.ma
+SUMMARY:The Downbeat - Música do Círculo
+DESCRIPTION:Get up-to-date information at: https://luma.com/1h2yjavw\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, California\nUnited States\n\nHoste
+ d by The Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260428T013000Z
+DTEND:20260428T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-LeqpQDoo5sWCBrk@events.lu.ma
+SUMMARY:Field Trip to Dave Worm!
+DESCRIPTION:Get up-to-date information at: https://luma.com/t0jqgmtv\n\nAd
+ dress:\nOakland Peace Center\nOakland, California\nUnited States\n\nHosted
+  by The Downbeat
+LOCATION:Oakland Peace Center, 111 Fairmount Ave #504, Oakland, CA 94611, 
+ USA
+GEO:37.8167335;-122.2609272
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260502T180000Z
+DTEND:20260502T220000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-Mweu7vfe7HaYLks@events.lu.ma
+SUMMARY:🥳 Downbeat Birthday Picnic! 🧺🎶
+DESCRIPTION:Get up-to-date information at: https://luma.com/2y6u41hb\n\nAd
+ dress:\nEdoff Memorial Bandstand at Lake Merritt\nOakland, CA\nUnited Stat
+ es\n\nHosted by The Downbeat
+LOCATION:Edoff Memorial Bandstand at Lake Merritt, Oakland, CA 94610, USA
+GEO:37.8077463;-122.26015950000001
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260505T010000Z
+DTEND:20260505T033000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-QpcHtFJVrLlbKfC@events.lu.ma
+SUMMARY:The Downbeat - May the 4th Downbeat birthday be with you! 🎂
+DESCRIPTION:Get up-to-date information at: https://luma.com/dap5rpys\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260512T010000Z
+DTEND:20260512T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-2cNz9mLJCSjksQK@events.lu.ma
+SUMMARY:Música Do Círculo with Marcus
+DESCRIPTION:Get up-to-date information at: https://luma.com/ts4atxxy\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260519T010000Z
+DTEND:20260519T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-OUsvdOvCQvitjoH@events.lu.ma
+SUMMARY:Vocal River And Supported Solos with Claire
+DESCRIPTION:Get up-to-date information at: https://luma.com/xvo5xqd0\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260526T010000Z
+DTEND:20260526T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-Vv90wM5X3ZTWOjy@events.lu.ma
+SUMMARY:Language Flow with Jascha
+DESCRIPTION:Get up-to-date information at: https://luma.com/dq3jc4ar\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260602T010000Z
+DTEND:20260602T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-o5GQcQkVyTkfddl@events.lu.ma
+SUMMARY:Flow + Portal with Marcus
+DESCRIPTION:Get up-to-date information at: https://luma.com/k644jpcl\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260609T013000Z
+DTEND:20260609T043000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-BcAlEcGQsSsJjjd@events.lu.ma
+SUMMARY:Vocal River with Jascha And Klaus
+DESCRIPTION:Get up-to-date information at: https://luma.com/1fvoordv\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260616T014500Z
+DTEND:20260616T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-A1ZWG0NTwox3Y7a@events.lu.ma
+SUMMARY:Field Trip to Dave Worm
+DESCRIPTION:Get up-to-date information at: https://luma.com/8447y3dv\n\nAd
+ dress:\nOakland Peace Center\nOakland, CA\nUnited States\n\nHosted by The 
+ Downbeat
+LOCATION:Oakland Peace Center, 111 Fairmount Ave #504, Oakland, CA 94611, 
+ USA
+GEO:37.8167335;-122.2609272
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260623T010000Z
+DTEND:20260623T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-07SLrBcGyyLkwmY@events.lu.ma
+SUMMARY:Singing is Resistance with BenjaSoul
+DESCRIPTION:Get up-to-date information at: https://luma.com/v9kgu4is\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260630T010000Z
+DTEND:20260630T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-qLyizeSQ3jNVOe5@events.lu.ma
+SUMMARY:MDC & Vocal River with Klaus And Claire
+DESCRIPTION:Get up-to-date information at: https://luma.com/kh1dx7cn\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260707T010000Z
+DTEND:20260707T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-DQv2OG964eQ0WX8@events.lu.ma
+SUMMARY:MDC flow + Portal
+DESCRIPTION:Get up-to-date information at: https://luma.com/8rs3ibm9\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260714T010000Z
+DTEND:20260714T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-kGtOUErs10kq3SV@events.lu.ma
+SUMMARY:Música Do Círculo with Ann and Rafael
+DESCRIPTION:Get up-to-date information at: https://luma.com/7g1kw6xp\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260721T010000Z
+DTEND:20260721T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-CDrHe0bKErg5r2M@events.lu.ma
+SUMMARY:Collaborative Vocal Sound Healing
+DESCRIPTION:Get up-to-date information at: https://luma.com/3ognn5wr\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260728T010000Z
+DTEND:20260728T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-CMx54wlLMb6xEnp@events.lu.ma
+SUMMARY:The Art of Joining (w/ Jascha & Carla)
+DESCRIPTION:Get up-to-date information at: https://luma.com/fkz3x1pz\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260804T010000Z
+DTEND:20260804T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-XDvqdAdERQbjvMI@events.lu.ma
+SUMMARY:Music and Movement Play w/ Miles
+DESCRIPTION:Get up-to-date information at: https://luma.com/5cgwlhe3\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260811T010000Z
+DTEND:20260811T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-rIyIpsw764L82rU@events.lu.ma
+SUMMARY:The Group Field with Carla
+DESCRIPTION:Get up-to-date information at: https://luma.com/na4tp1u0\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260818T010000Z
+DTEND:20260818T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-pIIDBSL8sWzxFaa@events.lu.ma
+SUMMARY:Vocal River + MDC with Claire
+DESCRIPTION:Get up-to-date information at: https://luma.com/gqr11qrb\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260825T010000Z
+DTEND:20260825T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-AShSVjbPGuqLn1l@events.lu.ma
+SUMMARY:Special Guest: Guillermo Rozenthuler
+DESCRIPTION:Get up-to-date information at: https://luma.com/4d0bkk1r\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260901T010000Z
+DTEND:20260901T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-jwciOsXhM7WPRs8@events.lu.ma
+SUMMARY:Special Guest: Bryan Dyer - member of Bobby McFerrin & Motion
+DESCRIPTION:Get up-to-date information at: https://luma.com/beym4o3f\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260908T010000Z
+DTEND:20260908T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-M3L0di8vXIbXVgN@events.lu.ma
+SUMMARY:"Singing For Each Other" with Jascha
+DESCRIPTION:Get up-to-date information at: https://luma.com/mxcpop22\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat & Jascha Hoffman
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260915T010000Z
+DTEND:20260915T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-cWGeddCfR6SbpIR@events.lu.ma
+SUMMARY:“Singing From Somewhere” with Carla
+DESCRIPTION:Get up-to-date information at: https://luma.com/8sgzu3qb\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260922T010000Z
+DTEND:20260922T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-h1Mj3A3f6Ty0VAW@events.lu.ma
+SUMMARY:MDC + Vocal River w/ Marcus
+DESCRIPTION:Get up-to-date information at: https://luma.com/8myaqi8z\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20260929T010000Z
+DTEND:20260929T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-BmHvYoO7A82SVCq@events.lu.ma
+SUMMARY:Música Do Círculo w/ Seabass and Miles
+DESCRIPTION:Get up-to-date information at: https://luma.com/94x9t98x\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261006T010000Z
+DTEND:20261006T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-9l72wga5ysW59mE@events.lu.ma
+SUMMARY:Move/Sing with Jascha & Claire
+DESCRIPTION:Get up-to-date information at: https://luma.com/afowg2dp\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261013T010000Z
+DTEND:20261013T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-SZpYaL2XT2455EL@events.lu.ma
+SUMMARY:Vocal River Masterclass with Rhiannon
+DESCRIPTION:Get up-to-date information at: https://luma.com/w20e7q59\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261020T010000Z
+DTEND:20261020T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-pCyfKFvreSGfjo4@events.lu.ma
+SUMMARY:The Downbeat w/ guest facilitator Briony Greenhill
+DESCRIPTION:Get up-to-date information at: https://luma.com/6g1yhh8o\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261024T183000Z
+DTEND:20261024T210000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-GagHofD0Vyf9MxG@events.lu.ma
+SUMMARY:Unbroken Flow at the Lake with Jascha
+DESCRIPTION:Get up-to-date information at: https://luma.com/r7hnnwei\n\nAd
+ dress:\nEdoff Memorial Bandstand at Lake Merritt\nOakland, CA\nUnited Stat
+ es\n\nHosted by The Downbeat
+LOCATION:Edoff Memorial Bandstand at Lake Merritt, Oakland, CA 94610, USA
+GEO:37.8077463;-122.26015950000001
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261027T010000Z
+DTEND:20261027T040000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-4Q4wcvmFljUOBIv@events.lu.ma
+SUMMARY:The Downbeat - with Carla!
+DESCRIPTION:Get up-to-date information at: https://luma.com/nav62jx5\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261103T020000Z
+DTEND:20261103T050000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-8jcdVmI1VDzq7uZ@events.lu.ma
+SUMMARY:The Downbeat - TBD
+DESCRIPTION:Get up-to-date information at: https://luma.com/mejuhluh\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261110T020000Z
+DTEND:20261110T050000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-jUp4PQZIKjw0nls@events.lu.ma
+SUMMARY:The Downbeat - TBD
+DESCRIPTION:Get up-to-date information at: https://luma.com/1wdcc5kb\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261114T193000Z
+DTEND:20261114T220000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-IbjBjmNRk6RkjKu@events.lu.ma
+SUMMARY:Unbroken Flow at the Lake! 🌀
+DESCRIPTION:Get up-to-date information at: https://luma.com/zcqnia9f\n\nAd
+ dress:\nEdoff Memorial Bandstand at Lake Merritt\nOakland, CA\nUnited Stat
+ es\n\nHosted by The Downbeat
+LOCATION:Edoff Memorial Bandstand at Lake Merritt, Oakland, CA 94610, USA
+GEO:37.8077463;-122.26015950000001
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261117T020000Z
+DTEND:20261117T050000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-0sb2AUBHzQwmX17@events.lu.ma
+SUMMARY:The Downbeat - TBD
+DESCRIPTION:Get up-to-date information at: https://luma.com/5il0io1m\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261124T020000Z
+DTEND:20261124T050000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-yCn4ZI37gwotCeq@events.lu.ma
+SUMMARY:The Downbeat - TBD
+DESCRIPTION:Get up-to-date information at: https://luma.com/rg97dp37\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261201T020000Z
+DTEND:20261201T050000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-teHNkrgwX6QE65f@events.lu.ma
+SUMMARY:The Downbeat - TBD
+DESCRIPTION:Get up-to-date information at: https://luma.com/03v58bdi\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261208T020000Z
+DTEND:20261208T050000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-OYtuCp0O0LDrXf3@events.lu.ma
+SUMMARY:The Downbeat - TBD
+DESCRIPTION:Get up-to-date information at: https://luma.com/ebyjwz9q\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261215T020000Z
+DTEND:20261215T050000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-mXZqfckNBHvrReZ@events.lu.ma
+SUMMARY:The Downbeat - TBD
+DESCRIPTION:Get up-to-date information at: https://luma.com/l8ji30n4\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261222T020000Z
+DTEND:20261222T050000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-cpbBXYcA3oy0kum@events.lu.ma
+SUMMARY:The Downbeat - TBD
+DESCRIPTION:Get up-to-date information at: https://luma.com/kql9z7se\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261229T020000Z
+DTEND:20261229T050000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-F1El3CXZAinnQ1y@events.lu.ma
+SUMMARY:The Downbeat - TBD
+DESCRIPTION:Get up-to-date information at: https://luma.com/jip16v09\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20270105T020000Z
+DTEND:20270105T050000Z
+ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
+UID:evt-WFMDUKNHAmD5uBz@events.lu.ma
+SUMMARY:The Downbeat - TBD
+DESCRIPTION:Get up-to-date information at: https://luma.com/a68ffyez\n\nAd
+ dress:\nThe Berkeley Alembic\nBerkeley, CA\nUnited States\n\nHosted by The
+  Downbeat
+LOCATION:The Berkeley Alembic, 2820 Seventh St, Berkeley, CA 94710, USA
+GEO:37.854171699999995;-122.2934207
+SEQUENCE:214253192
+STATUS:TENTATIVE
+END:VEVENT
+END:VCALENDAR

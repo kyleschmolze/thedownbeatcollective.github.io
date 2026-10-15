@@ -13,18 +13,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch ICS feed
+      - name: Fetch ICS feeds
         run: |
-          curl -fsSL --retry 3 \
-            'https://calendar.google.com/calendar/ical/06093b94873d5bcca7b4acaebde9cd8b7e8f40822f3dce5a3eccfdf84d162930%40group.calendar.google.com/public/basic.ics' \
-            -o calendar/events.ics.new
-          grep -q 'BEGIN:VCALENDAR' calendar/events.ics.new
-          mv calendar/events.ics.new calendar/events.ics
+          fetch() {
+            curl -fsSL --retry 3 "$1" -o "$2.tmp"
+            grep -q 'BEGIN:VCALENDAR' "$2.tmp"
+            # DTSTAMP is the fetch time on some feeds; drop it so unchanged feeds don't produce commits
+            grep -v '^DTSTAMP' "$2.tmp" > "$2"
+            rm "$2.tmp"
+          }
+          fetch 'https://calendar.google.com/calendar/ical/06093b94873d5bcca7b4acaebde9cd8b7e8f40822f3dce5a3eccfdf84d162930%40group.calendar.google.com/public/basic.ics' calendar/events.ics
+          fetch 'https://api.luma.com/ics/get?entity=calendar&id=cal-tmZVAT6bkyIXJMn' calendar/luma.ics
       - name: Commit if changed
         run: |
-          git diff --quiet calendar/events.ics && exit 0
+          git add calendar/events.ics calendar/luma.ics
+          git diff --cached --quiet && exit 0
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add calendar/events.ics
-          git commit -m 'Sync calendar feed'
+          git commit -m 'Sync calendar feeds'
           git push
