@@ -65,21 +65,17 @@
 		(function () {
 			var CAL_ID = '06093b94873d5bcca7b4acaebde9cd8b7e8f40822f3dce5a3eccfdf84d162930@group.calendar.google.com';
 			var DISPLAY_TZ = 'America/Los_Angeles';
-			var ICS_URL = 'https://calendar.google.com/calendar/ical/' + encodeURIComponent(CAL_ID) + '/public/basic.ics';
 			var HORIZON_DAYS = 180;
 			var root = document.getElementById('cal');
 
-			// Google's ICS endpoint has no CORS headers, so fall back to proxies if the direct fetch is blocked.
-			var SOURCES = [
-				ICS_URL,
-				'https://corsproxy.io/?' + encodeURIComponent(ICS_URL),
-				'https://api.allorigins.win/raw?url=' + encodeURIComponent(ICS_URL)
-			];
+			// Google's ICS endpoint sends no CORS headers, so browsers can't read it directly.
+			// A GitHub Action (.github/workflows/sync-calendar.yml) mirrors it to events.ics.
+			var SOURCES = ['events.ics'];
 
 			function fetchIcs() {
 				return SOURCES.reduce(function (p, url) {
 					return p.catch(function () {
-						return fetch(url).then(function (r) {
+						return fetch(url, { cache: 'no-cache' }).then(function (r) {
 							if (!r.ok) throw new Error('HTTP ' + r.status);
 							return r.text();
 						}).then(function (t) {
