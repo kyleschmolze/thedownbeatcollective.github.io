@@ -26,6 +26,21 @@ RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20241125T120000
+DTEND;TZID=America/Los_Angeles:20241125T133000
+RRULE:FREQ=WEEKLY;BYDAY=MO
+UID:4opbv58lqjsis981rrlpqo5pb4@google.com
+CREATED:20241125T222834Z
+DESCRIPTION:<a href="https://secure.thefreight.org/overview/14171">https://
+ secure.thefreight.org/overview/14171</a>
+LAST-MODIFIED:20241125T222843Z
+LOCATION:Freight & Salvage\, 2020 Addison St\, Berkeley\, CA 94704\, USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Berkeley | Bobby McFerrin + Motion
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
 DTSTART;VALUE=DATE:20250118
 DTEND;VALUE=DATE:20250120
 UID:4m2cfdtufjjqegbkmjim5tktmp@google.com
@@ -38,6 +53,86 @@ LOCATION:See description for registration and location info
 SEQUENCE:0
 STATUS:CONFIRMED
 SUMMARY:Marin | Intro to CVI with Briony Greenhill
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20250102T010000Z
+DTEND:20250102T040000Z
+UID:A8B183C6-58FE-4B59-B306-B97173F0B46C
+CREATED:20241220T175036Z
+LAST-MODIFIED:20241220T175036Z
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Downbeat 2025 Day One Singin'!
+TRANSP:OPAQUE
+X-APPLE-CREATOR-IDENTITY:com.flexibits.fantastical2.iphone
+X-APPLE-CREATOR-TEAM-IDENTITY:85C27NK92C
+BEGIN:VALARM
+ACTION:NONE
+TRIGGER;VALUE=DATE-TIME:19760401T005545Z
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20250111
+DTEND;VALUE=DATE:20250113
+UID:67s98785d85t7lolqkqu0nvn9v@google.com
+CREATED:20241028T170521Z
+DESCRIPTION:<a href="https://www.brionygreenhill.com/teaching/weekend-for-e
+ xperienced-students">https://www.brionygreenhill.com/teaching/weekend-for-e
+ xperienced-students</a>
+LAST-MODIFIED:20241125T221403Z
+LOCATION:See link in description for registration + location info
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Marin | CVI weekend w/ Briony Greenhill for experienced students
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20241219T030000Z
+DTEND:20241219T050000Z
+UID:57ttckab5kgbp926m8p2bjmkh8@google.com
+CREATED:20241201T195319Z
+DESCRIPTION:Every 3rd Wednesday\, gather at 1st Congregational church in Be
+ rkeley for 2 hours of facilitated Circlesinging by David Worm and various l
+ ocal and visiting facilitators. Suggested donation $10-30\, but no one turn
+ ed away for lack of funds.
+LAST-MODIFIED:20241202T015048Z
+LOCATION:2345 Channing Way\, Berkeley\, CA 94704
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Berkeley | Community Circlesong hosted by David Worm
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20241230T200000Z
+DTEND:20241231T060000Z
+UID:2ft1rv68j5nd0oonhlei3sch6h@google.com
+CREATED:20241201T195700Z
+DESCRIPTION:Come celebrate the final days of 2024 with an epic\, 10-hour un
+ broken Circlesong!! Come in and out for whatever stretch is desirable\, but
+  singing will be happening from Noon until 10PM. Facilitated by David Worm 
+ and guests.
+LAST-MODIFIED:20241202T015151Z
+LOCATION:2345 Channing Way\, Berkeley\, CA 94704
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Berkeley | SING FOR YOUR LIFE
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20250125
+DTEND;VALUE=DATE:20250127
+UID:184k7qev1m6t20ubr3csmal3tp@google.com
+CREATED:20241125T221657Z
+DESCRIPTION:<a href="https://www.brionygreenhill.com/teaching/healing-forms
+ -for-experienced-students">https://www.brionygreenhill.com/teaching/healing
+ -forms-for-experienced-students</a>
+LAST-MODIFIED:20241125T221657Z
+LOCATION:See description for registration and location info
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Marin | Healing forms with Briony Greenhill for experienced student
+ s
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
@@ -56,18 +151,33 @@ SUMMARY:East Bay | Downbeat Weekly Jam
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-DTSTART;TZID=America/Los_Angeles:20241125T120000
-DTEND;TZID=America/Los_Angeles:20241125T133000
-RRULE:FREQ=WEEKLY;BYDAY=MO
-UID:4opbv58lqjsis981rrlpqo5pb4@google.com
-CREATED:20241125T222834Z
-DESCRIPTION:<a href="https://secure.thefreight.org/overview/14171">https://
- secure.thefreight.org/overview/14171</a>
-LAST-MODIFIED:20241125T222843Z
-LOCATION:Freight & Salvage\, 2020 Addison St\, Berkeley\, CA 94704\, USA
+DTSTART;TZID=America/Los_Angeles:20250206T190000
+DTEND;TZID=America/Los_Angeles:20250206T203000
+RRULE:FREQ=WEEKLY;COUNT=4
+UID:5qftvq33hp7222has74f4i8l2o@google.com
+CREATED:20250205T061753Z
+DESCRIPTION:Keith Terry Body Music Classes. Thursdays in February. Oakland.
+  Info@crosspulse.com for details/location. All levels.
+LAST-MODIFIED:20260416T125924Z
 SEQUENCE:0
 STATUS:CONFIRMED
-SUMMARY:Berkeley | Bobby McFerrin + Motion
+SUMMARY:Keith Terry Body Music Classes
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20241212T030000Z
+DTEND:20241212T050000Z
+UID:5cidhmqd8iq7sqq6dsfnhhkpel@google.com
+CREATED:20241201T195158Z
+DESCRIPTION:Every 2nd Wednesday\, practice and learn skills of Circlesong f
+ acilitation with legendary human and facilitator David Worm as well as othe
+ rs from the community. Sliding scale suggested donation $35-50\, but no one
+  turned away for lack of funds.
+LAST-MODIFIED:20241202T015034Z
+LOCATION:2345 Channing Way\, Berkeley\, CA 94704
+SEQUENCE:2
+STATUS:CONFIRMED
+SUMMARY:Berkeley | Circlesinging Facilitation Workshop w/ David Worm
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
@@ -92,86 +202,6 @@ TRIGGER;VALUE=DATE-TIME:19760401T005545Z
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-DTSTART:20250102T010000Z
-DTEND:20250102T040000Z
-UID:A8B183C6-58FE-4B59-B306-B97173F0B46C
-CREATED:20241220T175036Z
-LAST-MODIFIED:20241220T175036Z
-SEQUENCE:0
-STATUS:CONFIRMED
-SUMMARY:Downbeat 2025 Day One Singin'!
-TRANSP:OPAQUE
-X-APPLE-CREATOR-IDENTITY:com.flexibits.fantastical2.iphone
-X-APPLE-CREATOR-TEAM-IDENTITY:85C27NK92C
-BEGIN:VALARM
-ACTION:NONE
-TRIGGER;VALUE=DATE-TIME:19760401T005545Z
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
-DTSTART:20241212T030000Z
-DTEND:20241212T050000Z
-UID:5cidhmqd8iq7sqq6dsfnhhkpel@google.com
-CREATED:20241201T195158Z
-DESCRIPTION:Every 2nd Wednesday\, practice and learn skills of Circlesong f
- acilitation with legendary human and facilitator David Worm as well as othe
- rs from the community. Sliding scale suggested donation $35-50\, but no one
-  turned away for lack of funds.
-LAST-MODIFIED:20241202T015034Z
-LOCATION:2345 Channing Way\, Berkeley\, CA 94704
-SEQUENCE:2
-STATUS:CONFIRMED
-SUMMARY:Berkeley | Circlesinging Facilitation Workshop w/ David Worm
-TRANSP:OPAQUE
-END:VEVENT
-BEGIN:VEVENT
-DTSTART;VALUE=DATE:20250125
-DTEND;VALUE=DATE:20250127
-UID:184k7qev1m6t20ubr3csmal3tp@google.com
-CREATED:20241125T221657Z
-DESCRIPTION:<a href="https://www.brionygreenhill.com/teaching/healing-forms
- -for-experienced-students">https://www.brionygreenhill.com/teaching/healing
- -forms-for-experienced-students</a>
-LAST-MODIFIED:20241125T221657Z
-LOCATION:See description for registration and location info
-SEQUENCE:0
-STATUS:CONFIRMED
-SUMMARY:Marin | Healing forms with Briony Greenhill for experienced student
- s
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-DTSTART:20241219T030000Z
-DTEND:20241219T050000Z
-UID:57ttckab5kgbp926m8p2bjmkh8@google.com
-CREATED:20241201T195319Z
-DESCRIPTION:Every 3rd Wednesday\, gather at 1st Congregational church in Be
- rkeley for 2 hours of facilitated Circlesinging by David Worm and various l
- ocal and visiting facilitators. Suggested donation $10-30\, but no one turn
- ed away for lack of funds.
-LAST-MODIFIED:20241202T015048Z
-LOCATION:2345 Channing Way\, Berkeley\, CA 94704
-SEQUENCE:1
-STATUS:CONFIRMED
-SUMMARY:Berkeley | Community Circlesong hosted by David Worm
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-DTSTART;VALUE=DATE:20250111
-DTEND;VALUE=DATE:20250113
-UID:67s98785d85t7lolqkqu0nvn9v@google.com
-CREATED:20241028T170521Z
-DESCRIPTION:<a href="https://www.brionygreenhill.com/teaching/weekend-for-e
- xperienced-students">https://www.brionygreenhill.com/teaching/weekend-for-e
- xperienced-students</a>
-LAST-MODIFIED:20241125T221403Z
-LOCATION:See link in description for registration + location info
-SEQUENCE:0
-STATUS:CONFIRMED
-SUMMARY:Marin | CVI weekend w/ Briony Greenhill for experienced students
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 DTSTART:20250116T020000Z
 DTEND:20250116T063500Z
 UID:6brr1qcuebbk3par7bjbd3setv@google.com
@@ -185,36 +215,6 @@ LOCATION:The Monkey House\, 1638 University Ave\, Berkeley\, CA 94703\, USA
 SEQUENCE:0
 STATUS:CONFIRMED
 SUMMARY:Berkeley | Briony Greenhill concert
-TRANSP:OPAQUE
-END:VEVENT
-BEGIN:VEVENT
-DTSTART:20241230T200000Z
-DTEND:20241231T060000Z
-UID:2ft1rv68j5nd0oonhlei3sch6h@google.com
-CREATED:20241201T195700Z
-DESCRIPTION:Come celebrate the final days of 2024 with an epic\, 10-hour un
- broken Circlesong!! Come in and out for whatever stretch is desirable\, but
-  singing will be happening from Noon until 10PM. Facilitated by David Worm 
- and guests.
-LAST-MODIFIED:20241202T015151Z
-LOCATION:2345 Channing Way\, Berkeley\, CA 94704
-SEQUENCE:1
-STATUS:CONFIRMED
-SUMMARY:Berkeley | SING FOR YOUR LIFE
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-DTSTART;TZID=America/Los_Angeles:20250206T190000
-DTEND;TZID=America/Los_Angeles:20250206T203000
-RRULE:FREQ=WEEKLY;COUNT=4
-UID:5qftvq33hp7222has74f4i8l2o@google.com
-CREATED:20250205T061753Z
-DESCRIPTION:Keith Terry Body Music Classes. Thursdays in February. Oakland.
-  Info@crosspulse.com for details/location. All levels.
-LAST-MODIFIED:20260416T125924Z
-SEQUENCE:0
-STATUS:CONFIRMED
-SUMMARY:Keith Terry Body Music Classes
 TRANSP:OPAQUE
 END:VEVENT
 END:VCALENDAR
