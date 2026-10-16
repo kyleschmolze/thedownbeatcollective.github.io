@@ -109,6 +109,15 @@
 			#bs .sw[aria-pressed="true"] { outline: 2px solid #222; outline-offset: 2px; }
 			#bs .sw.custom { background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red); overflow: hidden; }
 			#bs .sw.custom input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+			#bs .bs-pool.new { border-style: dashed; justify-content: center; }
+			#bs .bs-custom { border-top: 1px solid #eee; padding: 9px 0 4px; margin-top: 2px; }
+			#bs .bs-cslots { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; margin: 6px 0 10px; }
+			#bs .bs-cslot { display: flex; align-items: center; gap: 6px; }
+			#bs .bs-cslot .sw { display: block; flex: 0 0 28px; overflow: hidden; }
+			#bs .bs-cslot .sw input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+			#bs .bs-chexin { width: 100%; min-width: 0; padding: 5px 6px; border: 1px solid #d5d5da; border-radius: 6px; font: 12px/1 ui-monospace, Menlo, monospace; color: #222; }
+			#bs .bs-x { background: none; border: 0; font-size: 18px; line-height: 1; padding: 0 3px; color: #888; }
+			#bs .bs-x:hover { color: #a1281c; }
 			#bs .bs-fontbox { border-top: 1px solid #eee; padding: 9px 0 6px; }
 			#bs .bs-fontcur { display: flex; gap: 6px; align-items: center; margin: 6px 0; }
 			#bs .bs-fontname { flex: 1; font-size: 26px; line-height: 1.1; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 2px 0; }
@@ -606,29 +615,34 @@
 			}
 
 			// ---------- state ----------
-			var DEFAULT_FONT = 'Caveat';
+			var DEFAULT_FONT = 'Caveat', PAL_MAX = 10;
 			var state, history = [];
 
 			function poolColors(pool) {
 				var out = [];
-				(pool === 'mix' ? PALETTES.a.colors.concat(PALETTES.b.colors) : PALETTES[pool].colors).concat(NEUTRALS)
-					.forEach(function (c) { if (out.indexOf(c) < 0) out.push(c); });
+				var src = pool === 'custom' ? (state.custom || [])
+					: pool === 'mix' ? PALETTES.a.colors.concat(PALETTES.b.colors, state.custom || [])
+					: PALETTES[pool].colors;
+				src.concat(NEUTRALS).forEach(function (c) { if (out.indexOf(c) < 0) out.push(c); });
 				return out;
 			}
 			function fresh(pool) {
 				var d = PALETTES[pool].defaults, colors = {};
 				ROLES.forEach(function (r) { colors[r.key] = d[r.key]; });
-				return { pool: pool, colors: colors, locks: {}, font: DEFAULT_FONT };
+				return { pool: pool, colors: colors, locks: {}, font: DEFAULT_FONT, custom: null };
 			}
-			function snapshot() { return JSON.stringify({ pool: state.pool, colors: state.colors, locks: state.locks, font: state.font }); }
+			function snapshot() { return JSON.stringify({ pool: state.pool, colors: state.colors, locks: state.locks, font: state.font, custom: state.custom }); }
 			function pushHistory(snap) { history.push(snap || snapshot()); if (history.length > 60) history.shift(); }
 
 			function readHash() {
 				var p = {};
 				location.hash.replace(/^#/, '').split('&').forEach(function (kv) { var a = kv.split('='); if (a[0]) p[a[0]] = a[1]; });
-				var pool = (p.pool === 'mix' || PALETTES[p.pool]) ? p.pool : 'a';
-				var st = fresh(pool === 'mix' ? 'a' : pool);
+				var custom = (p.custom || '').split('-');
+				var customOk = custom.length >= 2 && custom.length <= PAL_MAX && custom.every(function (c) { return /^[0-9a-f]{6}$/i.test(c); });
+				var pool = (p.pool === 'mix' || PALETTES[p.pool] || (p.pool === 'custom' && customOk)) ? p.pool : 'a';
+				var st = fresh(pool === 'mix' || pool === 'custom' ? 'a' : pool);
 				st.pool = pool;
+				if (customOk) st.custom = custom.map(function (c) { return '#' + c.toLowerCase(); });
 				ROLES.forEach(function (r) { if (/^[0-9a-f]{6}$/i.test(p[r.hash] || '')) st.colors[r.key] = '#' + p[r.hash].toLowerCase(); });
 				// Links made before tags had their own color: keep that look by sharing the link color.
 				if (!/^[0-9a-f]{6}$/i.test(p.tag || '') && /^[0-9a-f]{6}$/i.test(p.link || '')) st.colors.tag = st.colors.link;
@@ -639,6 +653,7 @@
 				var parts = ['pool=' + state.pool];
 				ROLES.forEach(function (r) { parts.push(r.hash + '=' + state.colors[r.key].slice(1)); });
 				parts.push('font=' + encodeURIComponent(state.font));
+				if (state.custom) parts.push('custom=' + state.custom.map(function (c) { return c.slice(1); }).join('-'));
 				try { history_replace('#' + parts.join('&')); } catch (e) {}
 			}
 			function history_replace(h) { window.history.replaceState(null, '', h); }
@@ -796,20 +811,39 @@
 				}
 				var pool = poolColors(state.pool), r = ratios(state.colors);
 				var h = '<div class="bs-title">Brand colors</div><div class="bs-row">';
-				['a', 'b', 'mix'].forEach(function (k) {
-					var list = k === 'mix' ? poolColors('mix') : PALETTES[k].colors;
-					h += '<button type="button" class="bs-btn bs-pool' + (state.pool === k ? ' on' : '') + '" data-pool="' + k + '" title="' +
-						(k === 'mix' ? 'Use every color from both palettes (keeps your current picks)' : 'Load ' + PALETTES[k].name + ' as designed') + '">' +
-						(k === 'mix' ? 'Mix both' : PALETTES[k].name) + dots(list) + '</button>';
+				['a', 'b'].concat(state.custom ? ['custom'] : [], ['mix']).forEach(function (k) {
+					var list = k === 'mix' ? poolColors('mix') : k === 'custom' ? state.custom : PALETTES[k].colors;
+					var title = k === 'mix' ? 'Use every color from all palettes (keeps your current picks)'
+						: k === 'custom' ? 'Edit your custom palette (keeps your current picks)' : 'Load ' + PALETTES[k].name + ' as designed';
+					h += '<button type="button" class="bs-btn bs-pool' + (state.pool === k ? ' on' : '') + '" data-pool="' + k + '" title="' + title + '">' +
+						(k === 'mix' ? 'Mix all' : k === 'custom' ? 'Custom' : PALETTES[k].name) + dots(list) + '</button>';
 				});
+				if (!state.custom) h += '<button type="button" class="bs-btn bs-pool new" data-act="newpal" title="Make your own palette, starting from Palette A\'s colors (one per page load)">＋ New palette</button>';
 				h += '</div><div class="bs-row">' +
 					'<button type="button" class="bs-btn primary" data-act="shuffle" title="Shortcut: S">🎲 Shuffle</button>' +
 					'<button type="button" class="bs-btn" data-act="back"' + (history.length ? '' : ' disabled') + '>↩ Back</button>' +
 					'<button type="button" class="bs-btn" data-act="copycss">Copy CSS</button>' +
 					'<button type="button" class="bs-btn" data-act="copylink">Copy link</button></div>';
+				if (state.custom && state.pool === 'custom') h += customEditor();
 				$('bs-head').innerHTML = h;
-				h = '';
+				renderRoles();
+			}
 
+			function customEditor() {
+				var h = '<div class="bs-custom"><div class="bs-rolehead"><span class="bs-rolename">Custom palette</span><span class="bs-hex">' + state.custom.length + ' colors</span></div><div class="bs-cslots">';
+				state.custom.forEach(function (c, i) {
+					h += '<div class="bs-cslot"><label class="sw" style="background:' + c + '" title="Pick a color"><input type="color" data-cslot="' + i + '" value="' + c + '"></label>' +
+						'<input type="text" class="bs-chexin" data-chex="' + i + '" value="' + c + '" maxlength="7" spellcheck="false" aria-label="Color ' + (i + 1) + ' hex">' +
+						(state.custom.length > 2 ? '<button type="button" class="bs-x" data-cdel="' + i + '" aria-label="Remove color ' + (i + 1) + '" title="Remove">×</button>' : '') + '</div>';
+				});
+				return h + '</div><div class="bs-row">' +
+					(state.custom.length < PAL_MAX ? '<button type="button" class="bs-btn" data-act="cadd">＋ Add color</button>' : '') +
+					'<button type="button" class="bs-btn" data-act="creset" title="Back to Palette A\'s colors">Reset to A</button></div>' +
+					'<input type="text" class="bs-fontsearch" data-cpaste placeholder="Paste a coolors.co link or hex codes…" autocomplete="off" spellcheck="false" aria-label="Paste palette"></div>';
+			}
+
+			function renderRoles() {
+				var pool = poolColors(state.pool), r = ratios(state.colors), h = '';
 				ROLES.forEach(function (role) {
 					var cur = state.colors[role.key], ok = r[role.key] >= role.need, sws = pool.slice();
 					if (sws.indexOf(cur) < 0) sws.push(cur);
@@ -826,6 +860,25 @@
 					h += '<label class="sw custom" title="Custom color"><input type="color" data-custom="' + role.key + '" value="' + esc(cur) + '"></label></div></div>';
 				});
 				$('bs-roles').innerHTML = h;
+			}
+
+			// Editing a palette slot also recolors any role that was using that slot's old color.
+			function setCustom(next) {
+				var old = state.custom || [];
+				ROLES.forEach(function (r) {
+					var i = old.indexOf(state.colors[r.key]);
+					if (i >= 0 && next[i]) state.colors[r.key] = next[i];
+				});
+				state.custom = next;
+			}
+			function parseHex(str) { // '#abc' / 'ABCDEF' -> '#aabbcc', or null
+				var m = String(str).trim().replace(/^#/, '').toLowerCase();
+				if (/^[0-9a-f]{3}$/.test(m)) m = m.replace(/./g, '$&$&');
+				return /^[0-9a-f]{6}$/.test(m) ? '#' + m : null;
+			}
+			// Accepts a coolors.co URL, "#aaa, #bbb", or any text with hex codes in it.
+			function parsePalette(text) {
+				return text.split(/[^0-9a-fA-F]+/).filter(function (t) { return t.length === 6; }).map(function (t) { return '#' + t.toLowerCase(); }).slice(0, PAL_MAX);
 			}
 
 			function updateBadges() {
@@ -870,9 +923,22 @@
 				if (t.dataset.fontact) { fontAction(t); return; }
 				if (t.dataset.pool) {
 					pushHistory();
-					if (t.dataset.pool === 'mix') state.pool = 'mix';
-					else { var locks = state.locks, font = state.font; state = fresh(t.dataset.pool); state.locks = locks; state.font = font; }
+					if (t.dataset.pool === 'mix' || t.dataset.pool === 'custom') state.pool = t.dataset.pool;
+					else { var locks = state.locks, font = state.font, custom = state.custom; state = fresh(t.dataset.pool); state.locks = locks; state.font = font; state.custom = custom; }
 					refresh();
+				} else if (t.dataset.act === 'newpal') {
+					pushHistory();
+					state.custom = PALETTES.a.colors.slice();
+					state.colors = fresh('a').colors; // start from Palette A as designed, now backed by editable slots
+					state.pool = 'custom';
+					refresh();
+				} else if (t.dataset.act === 'cadd') {
+					var extra = PALETTES.a.colors.concat(PALETTES.b.colors).filter(function (c) { return state.custom.indexOf(c) < 0; })[0] || '#888888';
+					pushHistory(); state.custom = state.custom.concat(extra); refresh();
+				} else if (t.dataset.act === 'creset') {
+					pushHistory(); setCustom(PALETTES.a.colors.slice()); refresh();
+				} else if (t.dataset.cdel !== undefined) {
+					pushHistory(); state.custom = state.custom.filter(function (c, i) { return i !== +t.dataset.cdel; }); refresh();
 				} else if (t.dataset.act === 'shuffle') shuffle();
 				else if (t.dataset.act === 'back') {
 					if (history.length) { var prev = JSON.parse(history.pop()); state = prev; refresh(); }
@@ -885,13 +951,35 @@
 			});
 			panel.addEventListener('input', function (e) {
 				if (e.target.dataset && e.target.dataset.fontq !== undefined) { fontUI.q = e.target.value; renderFontList(); return; }
+				if (e.target.dataset && e.target.dataset.cslot !== undefined) { // live-drag a palette color
+					if (pendingCustom) { pushHistory(pendingCustom); pendingCustom = null; }
+					var i = +e.target.dataset.cslot, next = state.custom.slice();
+					next[i] = e.target.value.toLowerCase();
+					setCustom(next); apply(); updateBadges(); renderRoles();
+					var slot = e.target.closest('.bs-cslot');
+					slot.querySelector('.sw').style.background = next[i];
+					slot.querySelector('.bs-chexin').value = next[i];
+					return;
+				}
 				var k = e.target.dataset && e.target.dataset.custom;
 				if (!k) return;
 				if (pendingCustom) { pushHistory(pendingCustom); pendingCustom = null; }
 				state.colors[k] = e.target.value.toLowerCase();
 				apply(); updateBadges();
 			});
-			panel.addEventListener('change', function (e) { if (e.target.dataset && e.target.dataset.custom) render(); });
+			panel.addEventListener('change', function (e) {
+				var d = e.target.dataset || {};
+				if (d.custom !== undefined || d.cslot !== undefined) render();
+				else if (d.chex !== undefined) { // typed hex
+					var hex = parseHex(e.target.value), i = +d.chex;
+					if (hex && hex !== state.custom[i]) { var next = state.custom.slice(); next[i] = hex; pushHistory(); setCustom(next); refresh(); }
+					else render();
+				} else if (d.cpaste !== undefined) { // pasted palette
+					var list = parsePalette(e.target.value);
+					if (list.length < 2) { toast('Need at least 2 hex colors'); e.target.value = ''; return; }
+					pushHistory(); setCustom(list); refresh(); toast(list.length + ' colors loaded');
+				}
+			});
 
 			toggle.addEventListener('click', function () {
 				var open = panel.classList.toggle('open');
@@ -908,7 +996,7 @@
 			// Pasting or editing a #hash in the same tab doesn't reload the page, so follow it.
 			window.addEventListener('hashchange', function () {
 				var next = readHash(), locks = state.locks;
-				if (JSON.stringify(next.colors) === JSON.stringify(state.colors) && next.pool === state.pool && next.font === state.font) return;
+				if (JSON.stringify(next.colors) === JSON.stringify(state.colors) && next.pool === state.pool && next.font === state.font && JSON.stringify(next.custom) === JSON.stringify(state.custom)) return;
 				pushHistory();
 				state = next; state.locks = locks;
 				refresh();
