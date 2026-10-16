@@ -14,7 +14,8 @@
 			body { background: #f3f6fb url('../img/blue-splotch.png') no-repeat center top; background-size: cover; min-height: 100vh; }
 			header { padding-bottom: 10px; }
 			header h1 { font-size: 48px; }
-			header .back { font-size: 18px; font-weight: normal; }
+			header p, header .back { font-size: 18px; font-weight: normal; }
+			header p { margin: 0 auto 6px; max-width: 560px; }
 			.cal { max-width: 640px; margin: 0 auto; padding: 0 16px 40px; }
 			.cal-month {
 				font-family: 'Caveat', cursive; font-weight: normal;
@@ -62,8 +63,12 @@
 	</head>
 	<body>
 		<header>
-			<h1>Calendar</h1>
-			<a class="back" href="../">&larr; The Downbeat Collective</a>
+			<h1>Downbeat Community Singing Calendar</h1>
+			<p>
+				Community singing events collected from the wider
+				<a href="../">Downbeat Collective</a>
+				and vocal improv community in the Bay Area.
+			</p>
 		</header>
 		<main class="cal" id="cal">
 			<div class="cal-status">Loading events&hellip;</div>
@@ -285,6 +290,15 @@
 					if (effEnd < from || start > to) return;
 					occ.push({ ev: e, start: start, end: end, allDay: e.start.allDay });
 				}
+				// A Google event titled "Downbeat" at exactly the same time as a Luma event is a duplicate; keep the Luma one.
+				var lumaTimes = {};
+				occ.forEach(function (o) {
+					if (o.ev.source === 'luma') lumaTimes[o.start.getTime() + '|' + o.end.getTime()] = true;
+				});
+				occ = occ.filter(function (o) {
+					return o.ev.source === 'luma' || !/downbeat/i.test(o.ev.summary || '') ||
+						!lumaTimes[o.start.getTime() + '|' + o.end.getTime()];
+				});
 				occ.sort(function (a, b) { return a.start - b.start; });
 				return occ;
 			}
