@@ -14,7 +14,8 @@
 			body { background: #f3f6fb url('../img/blue-splotch.png') no-repeat center top; background-size: cover; min-height: 100vh; }
 			header { padding-bottom: 10px; }
 			header h1 { font-size: 48px; }
-			header .back { font-size: 18px; font-weight: normal; }
+			header p, header .back { font-size: 18px; font-weight: normal; }
+			header p { margin: 0 auto 6px; max-width: 560px; }
 			.cal { max-width: 640px; margin: 0 auto; padding: 0 16px 40px; }
 			.cal-month {
 				font-family: 'Caveat', cursive; font-weight: normal;
@@ -62,8 +63,9 @@
 	</head>
 	<body>
 		<header>
-			<h1>Calendar</h1>
-			<a class="back" href="../">&larr; The Downbeat Collective</a>
+			<h1>Downbeat Community Singing Calendar</h1>
+			<p>Community singing events collected from the wider Downbeat and vocal improv community in the Bay Area.</p>
+			<a class="back" href="../">The Downbeat Collective</a>
 		</header>
 		<main class="cal" id="cal">
 			<div class="cal-status">Loading events&hellip;</div>
