@@ -18,9 +18,9 @@ jobs:
           fetch() {
             curl -fsSL --retry 3 "$1" -o "$2.tmp"
             grep -q 'BEGIN:VCALENDAR' "$2.tmp"
-            # DTSTAMP is the fetch time on some feeds; drop it so unchanged feeds don't produce commits
-            grep -v '^DTSTAMP' "$2.tmp" > "$2"
-            rm "$2.tmp"
+            mv "$2.tmp" "$2"
+            # Strip per-fetch noise (DTSTAMP, SEQUENCE) and sort events so unchanged feeds produce no commit
+            python3 .github/scripts/normalize_ics.py "$2"
           }
           fetch 'https://calendar.google.com/calendar/ical/06093b94873d5bcca7b4acaebde9cd8b7e8f40822f3dce5a3eccfdf84d162930%40group.calendar.google.com/public/basic.ics' calendar/events.ics
           fetch 'https://api.luma.com/ics/get?entity=calendar&id=cal-tmZVAT6bkyIXJMn' calendar/luma.ics
