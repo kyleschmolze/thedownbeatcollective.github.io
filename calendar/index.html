@@ -44,6 +44,11 @@
 			.cal-actions a { color: #6D327C; }
 			.cal-actions a.cal-add { color: #777; font-size: 13px; }
 			.cal-luma { border-left: 4px solid #6D327C; }
+			.cal-tag {
+				display: inline-block; margin: 0 0 6px; padding: 2px 10px; border-radius: 999px;
+				background: #6D327C; color: #fff; font-size: 12px; font-weight: 700;
+				letter-spacing: .04em; text-transform: uppercase;
+			}
 			.cal-img { display: block; margin: 0 0 10px; }
 			.cal-img img { display: block; width: 100%; aspect-ratio: 2.2 / 1; object-fit: cover; border-radius: 8px; background: #e6e0ec; }
 			.cal-status { text-align: center; padding: 30px 0; font-weight: 400; }
@@ -364,15 +369,20 @@
 				c.appendChild(d);
 
 				var b = el('div', 'cal-body');
+				var hasCover = false;
 				if (luma && luma.url && lumaImages[luma.url]) {
 					var ia = el('a', 'cal-img');
 					ia.href = luma.url; ia.target = '_blank'; ia.rel = 'noopener';
-					var img = el('img'); img.src = lumaImages[luma.url]; img.alt = ''; img.loading = 'lazy';
+					var img = el('img'); img.src = lumaImages[luma.url]; img.alt = e.summary || ''; img.loading = 'lazy'; hasCover = true;
 					ia.appendChild(img); b.appendChild(ia);
 				}
-				var title = el('h3', 'cal-title', e.summary || '(No title)');
-				b.appendChild(title);
-				title.style.cssText = 'font-family:Quicksand,sans-serif;opacity:1;text-transform:none;margin:0 0 4px';
+				if (luma) b.appendChild(el('span', 'cal-tag', 'Official Downbeat event'));
+				// Luma covers already have the title baked in, so only show it when there's no cover.
+				if (!hasCover) {
+					var title = el('h3', 'cal-title', e.summary || '(No title)');
+					b.appendChild(title);
+					title.style.cssText = 'font-family:Quicksand,sans-serif;opacity:1;text-transform:none;margin:0 0 4px';
+				}
 				var tm = el('p', 'cal-meta'); tm.appendChild(el('span', 'ico', '🕒')); tm.appendChild(document.createTextNode(timeText(o)));
 				b.appendChild(tm);
 				if (e.location) {
