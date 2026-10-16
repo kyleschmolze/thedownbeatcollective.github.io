@@ -285,6 +285,15 @@
 					if (effEnd < from || start > to) return;
 					occ.push({ ev: e, start: start, end: end, allDay: e.start.allDay });
 				}
+				// A Google event titled "Downbeat" at exactly the same time as a Luma event is a duplicate; keep the Luma one.
+				var lumaTimes = {};
+				occ.forEach(function (o) {
+					if (o.ev.source === 'luma') lumaTimes[o.start.getTime() + '|' + o.end.getTime()] = true;
+				});
+				occ = occ.filter(function (o) {
+					return o.ev.source === 'luma' || !/downbeat/i.test(o.ev.summary || '') ||
+						!lumaTimes[o.start.getTime() + '|' + o.end.getTime()];
+				});
 				occ.sort(function (a, b) { return a.start - b.start; });
 				return occ;
 			}
