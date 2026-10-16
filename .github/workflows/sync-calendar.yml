@@ -24,9 +24,11 @@ jobs:
           }
           fetch 'https://calendar.google.com/calendar/ical/06093b94873d5bcca7b4acaebde9cd8b7e8f40822f3dce5a3eccfdf84d162930%40group.calendar.google.com/public/basic.ics' calendar/events.ics
           fetch 'https://api.luma.com/ics/get?entity=calendar&id=cal-tmZVAT6bkyIXJMn' calendar/luma.ics
+      - name: Fetch Luma cover images
+        run: python3 .github/scripts/luma_images.py
       - name: Commit if changed
         run: |
-          git add calendar/events.ics calendar/luma.ics
+          git add calendar/events.ics calendar/luma.ics calendar/luma-images.json
           git diff --cached --quiet && exit 0
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'

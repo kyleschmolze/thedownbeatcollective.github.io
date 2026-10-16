@@ -40,8 +40,12 @@
 			.cal-desc { font-size: 14px; font-weight: 400; color: #444; margin: 8px 0 0; white-space: pre-line; overflow-wrap: anywhere; }
 			.cal-desc.clamp { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 			.cal-more { background: none; border: 0; padding: 0; margin-top: 4px; font: inherit; font-size: 14px; color: #6D327C; cursor: pointer; }
-			.cal-actions { margin-top: 10px; }
-			.cal-actions a.btn { font-size: 14px; padding: 6px 14px; margin: 0 6px 0 0; }
+			.cal-actions { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14px; font-weight: 400; }
+			.cal-actions a { color: #6D327C; }
+			.cal-actions a.cal-add { color: #777; font-size: 13px; }
+			.cal-luma { border-left: 4px solid #6D327C; }
+			.cal-img { display: block; margin: 0 0 10px; }
+			.cal-img img { display: block; width: 100%; aspect-ratio: 2.2 / 1; object-fit: cover; border-radius: 8px; background: #e6e0ec; }
 			.cal-status { text-align: center; padding: 30px 0; font-weight: 400; }
 			.cal-status a { color: #6D327C; }
 			@media (max-width: 420px) {
@@ -72,7 +76,7 @@
 			// A GitHub Action (.github/workflows/sync-calendar.yml) mirrors them next to this page.
 			var SOURCES = ['events.ics', 'luma.ics'];
 
-			// Resolves with the ICS text of every feed that loaded; rejects only if none did.
+			// Resolves with {text, source} for every feed that loaded; rejects only if none did.
 			function fetchIcs() {
 				return Promise.all(SOURCES.map(function (url) {
 					return fetch(url, { cache: 'no-cache' }).then(function (r) {
@@ -80,12 +84,12 @@
 						return r.text();
 					}).then(function (t) {
 						if (t.indexOf('BEGIN:VCALENDAR') < 0) throw new Error('Not an ICS file');
-						return t;
+						return { text: t, source: url === 'luma.ics' ? 'luma' : 'google' };
 					}).catch(function () { return null; });
-				})).then(function (texts) {
-					texts = texts.filter(Boolean);
-					if (!texts.length) throw new Error('No calendar feeds loaded');
-					return texts;
+				})).then(function (feeds) {
+					feeds = feeds.filter(Boolean);
+					if (!feeds.length) throw new Error('No calendar feeds loaded');
+					return feeds;
 				});
 			}
 
@@ -109,10 +113,10 @@
 				return { name: head[0].toUpperCase(), params: params, value: line.slice(i + 1) };
 			}
 
-			function parseEvents(text) {
+			function parseEvents(text, source) {
 				var events = [], cur = null;
 				unfold(text).forEach(function (line) {
-					if (line === 'BEGIN:VEVENT') { cur = { exdates: [] }; return; }
+					if (line === 'BEGIN:VEVENT') { cur = { exdates: [], source: source }; return; }
 					if (line === 'END:VEVENT') { if (cur) events.push(cur); cur = null; return; }
 					if (!cur || !line) return;
 					var p = parseLine(line);
@@ -332,16 +336,43 @@
 					'&details=' + encodeURIComponent(o.ev.description ? stripHtml(o.ev.description) : '');
 			}
 
+			var LUMA_URL_RE = /https:\/\/(?:luma\.com|lu\.ma)\/[A-Za-z0-9_-]+/;
+			var lumaImages = {};
+
+			// Luma's boilerplate description repeats the location and a link; keep only what's left.
+			function lumaExtras(e) {
+				var d = e.description || '';
+				var m = d.match(LUMA_URL_RE);
+				var rest = d.replace(/Get up-to-date information at:\s*\S+/, '')
+					.replace(/Address:\n[\s\S]*?(?=\n\nHosted by|$)/, '')
+					.replace(/^\s*Hosted by The Downbeat\s*$/, '')
+					.trim();
+				return { url: m ? m[0] : null, description: rest };
+			}
+
 			function card(o) {
 				var e = o.ev, c = el('article', 'cal-card');
+				var luma = null;
+				if (e.source === 'luma') {
+					c.classList.add('cal-luma');
+					luma = lumaExtras(e);
+				}
+				var desc_ = luma ? luma.description : e.description;
 				var d = el('div', 'cal-date');
 				d.appendChild(el('span', 'dow', fmt(o.start, { weekday: 'short' })));
 				d.appendChild(el('span', 'day', fmt(o.start, { day: 'numeric' })));
 				c.appendChild(d);
 
 				var b = el('div', 'cal-body');
-				b.appendChild(el('h3', 'cal-title', e.summary || '(No title)'));
-				b.firstChild.style.cssText = 'font-family:Quicksand,sans-serif;opacity:1;text-transform:none;margin:0 0 4px';
+				if (luma && luma.url && lumaImages[luma.url]) {
+					var ia = el('a', 'cal-img');
+					ia.href = luma.url; ia.target = '_blank'; ia.rel = 'noopener';
+					var img = el('img'); img.src = lumaImages[luma.url]; img.alt = ''; img.loading = 'lazy';
+					ia.appendChild(img); b.appendChild(ia);
+				}
+				var title = el('h3', 'cal-title', e.summary || '(No title)');
+				b.appendChild(title);
+				title.style.cssText = 'font-family:Quicksand,sans-serif;opacity:1;text-transform:none;margin:0 0 4px';
 				var tm = el('p', 'cal-meta'); tm.appendChild(el('span', 'ico', '🕒')); tm.appendChild(document.createTextNode(timeText(o)));
 				b.appendChild(tm);
 				if (e.location) {
@@ -351,9 +382,9 @@
 					la.target = '_blank'; la.rel = 'noopener';
 					lm.appendChild(la); b.appendChild(lm);
 				}
-				if (e.description) {
+				if (desc_) {
 					var desc = el('p', 'cal-desc clamp');
-					linkify(desc, stripHtml(e.description));
+					linkify(desc, stripHtml(desc_));
 					b.appendChild(desc);
 					var btn = el('button', 'cal-more', 'Show more');
 					btn.type = 'button';
@@ -367,7 +398,11 @@
 					});
 				}
 				var act = el('div', 'cal-actions');
-				var add = el('a', 'btn', 'Add to calendar'); add.href = gcalLink(o); add.target = '_blank'; add.rel = 'noopener';
+				if (luma && luma.url) {
+					var rsvp = el('a', null, 'Details & RSVP on Luma'); rsvp.href = luma.url; rsvp.target = '_blank'; rsvp.rel = 'noopener';
+					act.appendChild(rsvp);
+				}
+				var add = el('a', 'cal-add', 'Add to calendar'); add.href = gcalLink(o); add.target = '_blank'; add.rel = 'noopener';
 				act.appendChild(add);
 				b.appendChild(act);
 				c.appendChild(b);
@@ -397,9 +432,17 @@
 				root.appendChild(foot);
 			}
 
-			fetchIcs().then(function (texts) {
+			// Optional: Luma cover images, built by the sync workflow. Cards just skip the image without it.
+			function fetchLumaImages() {
+				return fetch('luma-images.json', { cache: 'no-cache' }).then(function (r) {
+					return r.ok ? r.json() : {};
+				}).catch(function () { return {}; });
+			}
+
+			Promise.all([fetchIcs(), fetchLumaImages()]).then(function (res) {
+				lumaImages = res[1];
 				var events = [];
-				texts.forEach(function (t) { events = events.concat(parseEvents(t)); });
+				res[0].forEach(function (f) { events = events.concat(parseEvents(f.text, f.source)); });
 				render(buildOccurrences(events));
 			}).catch(function () {
 				root.innerHTML = '';
