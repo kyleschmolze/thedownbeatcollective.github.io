@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Calendar Colors - The Downbeat Collective</title>
+		<meta name="robots" content="noindex">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="keywords" content="The Downbeat Collective">
+		<meta name="author" content="The Downbeat Collective">
+
+		<link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,700|Caveat:400" rel="stylesheet">
+		<link rel="stylesheet" href="../css/normalize.css" />
+		<link rel="stylesheet" href="../css/index.css" />
+		<style>
+			/* Color roles. The switcher at the bottom of the page rewrites these live. */
+			:root {
+				--bg: #d5c67a; --surface: #ffffff; --ink: #171a21;
+				--heading: #006da5; --tile: #6dbad7; --link: #171a21; --tile-ink: #000000;
+				--muted: color-mix(in srgb, var(--ink) 72%, var(--surface));
+				--line: color-mix(in srgb, var(--ink) 14%, transparent);
+			}
+			body { background: var(--bg); color: var(--ink); min-height: 100vh; }
+			a { color: var(--link); }
+			header { padding-bottom: 10px; }
+			header h1 { font-size: 48px; color: var(--heading); }
+			header p, header .back { font-size: 18px; font-weight: normal; }
+			header p { margin: 0 auto 6px; max-width: 560px; }
+			.cal { max-width: 640px; margin: 0 auto; padding: 0 16px 96px; }
+			.cal-month {
+				font-family: 'Caveat', cursive; font-weight: normal;
+				font-size: 32px; margin: 32px 0 12px; opacity: 1; color: var(--heading);
+			}
+			.cal-card {
+				display: flex; gap: 14px; background: var(--surface);
+				border: 1px solid var(--line); border-radius: 12px;
+				padding: 14px; margin-bottom: 12px;
+				box-shadow: 0 2px 8px rgba(0,0,0,.06);
+			}
+			.cal-date {
+				flex: 0 0 56px; height: 64px; border-radius: 10px; background: var(--tile); color: var(--tile-ink);
+				text-align: center; display: flex; flex-direction: column; justify-content: center;
+				line-height: 1.1;
+			}
+			.cal-date .dow { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; opacity: .85; }
+			.cal-date .day { font-size: 26px; }
+			.cal-body { min-width: 0; flex: 1; }
+			.cal-title { font-size: 18px; margin: 0 0 4px; overflow-wrap: anywhere; }
+			.cal-meta { font-size: 14px; font-weight: 400; color: var(--muted); margin: 2px 0; overflow-wrap: anywhere; }
+			.cal-meta .ico { display: inline-block; width: 1.3em; }
+			.cal-desc { font-size: 14px; font-weight: 400; color: var(--muted); margin: 8px 0 0; white-space: pre-line; overflow-wrap: anywhere; }
+			.cal-desc.clamp { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+			.cal-more { background: none; border: 0; padding: 0; margin-top: 4px; font: inherit; font-size: 14px; color: var(--link); cursor: pointer; }
+			.cal-actions { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14px; font-weight: 400; }
+			.cal-actions a { color: var(--link); }
+			.cal-actions a.cal-add { color: var(--muted); font-size: 13px; }
+			.cal-timerow { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 2px 10px; }
+			.cal-tag {
+				margin: 2px 0; padding: 1px 8px; border-radius: 999px; white-space: nowrap;
+				background: color-mix(in srgb, var(--link) 14%, transparent); color: var(--link); font-size: 11px; font-weight: 700;
+			}
+			.cal-img { display: block; margin: 0 0 10px; }
+			.cal-img img { display: block; width: 100%; aspect-ratio: 2.2 / 1; object-fit: cover; border-radius: 8px; background: color-mix(in srgb, var(--ink) 10%, var(--surface)); }
+			.cal-status { text-align: center; padding: 30px 0; font-weight: 400; }
+			.cal-status a { color: var(--link); }
+			@media (max-width: 420px) {
+				header { padding: 24px 16px 0; }
+				header h1 { font-size: 40px; }
+				.cal-card { padding: 12px; gap: 12px; }
+				.cal-date { flex-basis: 50px; }
+			}
+			/* ---- Brand switcher (deliberately not themed so it stays usable on any palette) ---- */
+			#bs-toggle {
+				position: fixed; right: 16px; bottom: 16px; z-index: 50; cursor: pointer;
+				background: #fff; color: #222; border: 1px solid rgba(0,0,0,.2); border-radius: 999px;
+				padding: 10px 16px; font: 700 14px/1 Quicksand, sans-serif; box-shadow: 0 4px 16px rgba(0,0,0,.25);
+			}
+			#bs {
+				position: fixed; right: 16px; bottom: 64px; z-index: 50; display: none;
+				width: min(400px, calc(100vw - 32px)); max-height: min(75vh, 680px); overflow-y: auto;
+				background: #fff; color: #222; border: 1px solid rgba(0,0,0,.2); border-radius: 14px;
+				box-shadow: 0 8px 32px rgba(0,0,0,.3); padding: 14px; font: 400 13px/1.3 Quicksand, sans-serif; text-align: left;
+			}
+			#bs.open { display: block; }
+			#bs button { font: inherit; color: #222; cursor: pointer; }
+			#bs .bs-title { font-weight: 700; font-size: 15px; margin: 0 0 8px; }
+			#bs .bs-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+			#bs .bs-btn { background: #f3f3f5; border: 1px solid #d5d5da; border-radius: 8px; padding: 7px 10px; font-weight: 700; }
+			#bs .bs-btn:hover { background: #e9e9ee; }
+			#bs .bs-btn.primary { background: #222; color: #fff; border-color: #222; }
+			#bs .bs-btn.primary:hover { background: #000; }
+			#bs .bs-btn:disabled { opacity: .4; cursor: default; }
+			#bs .bs-pool { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+			#bs .bs-pool.on { background: #fff; border-color: #222; box-shadow: inset 0 0 0 1px #222; }
+			#bs .bs-dots { display: flex; }
+			#bs .bs-dots i { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,.25); margin-left: -3px; }
+			#bs .bs-dots i:first-child { margin-left: 0; }
+			#bs .bs-role { border-top: 1px solid #eee; padding: 9px 0 4px; }
+			#bs .bs-rolehead { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+			#bs .bs-rolename { font-weight: 700; flex: 1; }
+			#bs .bs-badge { font-size: 11px; padding: 1px 6px; border-radius: 999px; background: #e6f4ea; color: #14612b; }
+			#bs .bs-badge.bad { background: #fdecea; color: #a1281c; }
+			#bs .bs-hex { font: 12px/1 ui-monospace, Menlo, monospace; color: #666; }
+			#bs .bs-lock { background: none; border: 1px solid transparent; border-radius: 6px; padding: 2px 5px; opacity: .45; }
+			#bs .bs-lock[aria-pressed="true"] { opacity: 1; border-color: #222; background: #f3f3f5; }
+			#bs .bs-sws { display: flex; flex-wrap: wrap; gap: 7px; }
+			#bs .sw { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(0,0,0,.3); padding: 0; position: relative; }
+			#bs .sw[aria-pressed="true"] { outline: 2px solid #222; outline-offset: 2px; }
+			#bs .sw.custom { background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red); overflow: hidden; }
+			#bs .sw.custom input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+			#bs .bs-foot { color: #777; font-size: 11px; margin-top: 8px; }
+			#bs-toast { position: fixed; left: 50%; bottom: 76px; transform: translateX(-50%); z-index: 60; background: #222; color: #fff; padding: 8px 14px; border-radius: 8px; font: 700 13px Quicksand, sans-serif; display: none; }
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1>Downbeat Community Singing Calendar</h1>
+			<p>
+				Community singing events collected from the wider
+				<a href="../">Downbeat Collective</a>
+				and vocal improv community in the Bay Area.
+			</p>
+		</header>
+		<main class="cal" id="cal">
+			<div class="cal-status">Loading events&hellip;</div>
+		</main>
+
+		<script>
+		(function () {
+			var CAL_ID = '06093b94873d5bcca7b4acaebde9cd8b7e8f40822f3dce5a3eccfdf84d162930@group.calendar.google.com';
+			var DISPLAY_TZ = 'America/Los_Angeles';
+			var HORIZON_DAYS = 180;
+			var root = document.getElementById('cal');
+
+			// Neither feed sends CORS headers, so browsers can't read them directly.
+			// A GitHub Action (.github/workflows/sync-calendar.yml) mirrors them next to this page.
+			var SOURCES = ['../calendar/events.ics', '../calendar/luma.ics'];
+
+			// Resolves with {text, source} for every feed that loaded; rejects only if none did.
+			function fetchIcs() {
+				return Promise.all(SOURCES.map(function (url) {
+					return fetch(url, { cache: 'no-cache' }).then(function (r) {
+						if (!r.ok) throw new Error('HTTP ' + r.status);
+						return r.text();
+					}).then(function (t) {
+						if (t.indexOf('BEGIN:VCALENDAR') < 0) throw new Error('Not an ICS file');
+						return { text: t, source: /luma\.ics$/.test(url) ? 'luma' : 'google' };
+					}).catch(function () { return null; });
+				})).then(function (feeds) {
+					feeds = feeds.filter(Boolean);
+					if (!feeds.length) throw new Error('No calendar feeds loaded');
+					return feeds;
+				});
+			}
+
+			// ---------- ICS parsing ----------
+			function unfold(text) { return text.replace(/\r?\n[ \t]/g, '').split(/\r?\n/); }
+
+			function unescapeText(s) {
+				return s.replace(/\\n/gi, '\n').replace(/\\([,;\\])/g, '$1');
+			}
+
+			function parseLine(line) {
+				var i = 0, inQ = false;
+				for (; i < line.length; i++) {
+					if (line[i] === '"') inQ = !inQ;
+					else if (line[i] === ':' && !inQ) break;
+				}
+				var head = line.slice(0, i).split(';'), params = {};
+				head.slice(1).forEach(function (p) {
+					var kv = p.split('='); params[kv[0].toUpperCase()] = (kv[1] || '').replace(/"/g, '');
+				});
+				return { name: head[0].toUpperCase(), params: params, value: line.slice(i + 1) };
+			}
+
+			function parseEvents(text, source) {
+				var events = [], cur = null;
+				unfold(text).forEach(function (line) {
+					if (line === 'BEGIN:VEVENT') { cur = { exdates: [], source: source }; return; }
+					if (line === 'END:VEVENT') { if (cur) events.push(cur); cur = null; return; }
+					if (!cur || !line) return;
+					var p = parseLine(line);
+					switch (p.name) {
+						case 'UID': cur.uid = p.value; break;
+						case 'SUMMARY': cur.summary = unescapeText(p.value); break;
+						case 'DESCRIPTION': cur.description = unescapeText(p.value); break;
+						case 'LOCATION': cur.location = unescapeText(p.value); break;
+						case 'URL': cur.url = p.value; break;
+						case 'STATUS': cur.status = p.value; break;
+						case 'RRULE': cur.rrule = p.value; break;
+						case 'DTSTART': cur.start = parseDate(p); break;
+						case 'DTEND': cur.end = parseDate(p); break;
+						case 'RECURRENCE-ID': cur.recurrenceId = parseDate(p); break;
+						case 'EXDATE':
+							p.value.split(',').forEach(function (v) {
+								cur.exdates.push(parseDate({ params: p.params, value: v }).date.getTime());
+							});
+							break;
+					}
+				});
+				return events;
+			}
+
+			// Offset (ms) of a timezone from UTC at a given instant.
+			function tzOffset(tz, utcMs) {
+				var f = new Intl.DateTimeFormat('en-US', {
+					timeZone: tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric',
+					hour: 'numeric', minute: 'numeric', second: 'numeric'
+				});
+				var o = {};
+				f.formatToParts(new Date(utcMs)).forEach(function (x) { o[x.type] = +x.value; });
+				return Date.UTC(o.year, o.month - 1, o.day, o.hour, o.minute, o.second) - Math.floor(utcMs / 1000) * 1000;
+			}
+
+			function zonedToDate(y, mo, d, h, mi, s, tz) {
+				var guess = Date.UTC(y, mo, d, h, mi, s);
+				var off = tzOffset(tz, guess);
+				var res = guess - off;
+				var off2 = tzOffset(tz, res);
+				return new Date(guess - off2);
+			}
+
+			function parseDate(p) {
+				var v = p.value, m = v.match(/^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})(Z?))?$/);
+				if (!m) return { date: new Date(NaN), allDay: false };
+				var y = +m[1], mo = +m[2] - 1, d = +m[3];
+				if (m[4] === undefined) {
+					// all-day: anchor at local midnight in display tz
+					return { date: zonedToDate(y, mo, d, 0, 0, 0, DISPLAY_TZ), allDay: true };
+				}
+				var h = +m[4], mi = +m[5], s = +m[6];
+				if (m[7] === 'Z') return { date: new Date(Date.UTC(y, mo, d, h, mi, s)), allDay: false };
+				return { date: zonedToDate(y, mo, d, h, mi, s, p.params.TZID || DISPLAY_TZ), allDay: false };
+			}
+
+			// ---------- Recurrence expansion ----------
+			var DAYS = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+
+			// Wall-clock parts of an instant in display tz.
+			function parts(date) {
+				var o = {};
+				new Intl.DateTimeFormat('en-US', {
+					timeZone: DISPLAY_TZ, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric',
+					hour: 'numeric', minute: 'numeric', second: 'numeric'
+				}).formatToParts(date).forEach(function (x) { o[x.type] = +x.value; });
+				return o;
+			}
+
+			function expand(ev, from, to) {
+				var dur = (ev.end ? ev.end.date - ev.start.date : 0);
+				if (!ev.rrule) return [ev.start.date];
+				var r = {};
+				ev.rrule.split(';').forEach(function (kv) { var a = kv.split('='); r[a[0]] = a[1]; });
+				var interval = +r.INTERVAL || 1, count = r.COUNT ? +r.COUNT : Infinity;
+				var until = r.UNTIL ? parseDate({ params: {}, value: r.UNTIL }).date : null;
+				var byday = r.BYDAY ? r.BYDAY.split(',') : null;
+				var w = parts(ev.start.date);
+				var out = [], n = 0, guard = 0;
+				// iterate in wall-clock UTC space so DST doesn't shift local times
+				var base = Date.UTC(w.year, w.month - 1, w.day);
+				var DAY = 864e5;
+
+				function emit(utcMidnight) {
+					var d = new Date(utcMidnight);
+					var inst = ev.start.allDay
+						? zonedToDate(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 0, 0, 0, DISPLAY_TZ)
+						: zonedToDate(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), w.hour, w.minute, w.second, DISPLAY_TZ);
+					if (inst < ev.start.date) return true;
+					if (until && inst > until) return false;
+					if (++n > count) return false;
+					if (inst > to) return false;
+					if (ev.exdates.indexOf(inst.getTime()) < 0 && inst.getTime() + dur >= from.getTime()) out.push(inst);
+					return true;
+				}
+
+				var freq = r.FREQ;
+				if (freq === 'DAILY') {
+					for (var t = base; guard++ < 5000; t += DAY * interval) if (!emit(t)) break;
+				} else if (freq === 'WEEKLY') {
+					var startDow = new Date(base).getUTCDay();
+					var days = (byday || [DAYS[startDow]]).map(function (d) { return DAYS.indexOf(d.slice(-2)); }).sort();
+					var weekStart = base - startDow * DAY, go = true;
+					for (; go && guard++ < 2000; weekStart += 7 * DAY * interval) {
+						for (var i = 0; i < days.length; i++) {
+							if (!emit(weekStart + days[i] * DAY)) { go = false; break; }
+						}
+					}
+				} else if (freq === 'MONTHLY') {
+					for (var k = 0; guard++ < 1000; k += interval) {
+						var first = Date.UTC(w.year, w.month - 1 + k, 1), cand = null;
+						var fd = new Date(first), y = fd.getUTCFullYear(), mo = fd.getUTCMonth();
+						if (byday && byday[0].length > 2) {
+							var nth = parseInt(byday[0], 10), dow = DAYS.indexOf(byday[0].slice(-2));
+							if (nth > 0) {
+								cand = first + (((dow - fd.getUTCDay() + 7) % 7) + (nth - 1) * 7) * DAY;
+							} else {
+								var last = Date.UTC(y, mo + 1, 0), ld = new Date(last).getUTCDay();
+								cand = last - ((ld - dow + 7) % 7) * DAY + (nth + 1) * 7 * DAY;
+							}
+							if (new Date(cand).getUTCMonth() !== mo) continue;
+						} else {
+							cand = Date.UTC(y, mo, r.BYMONTHDAY ? +r.BYMONTHDAY : w.day);
+							if (new Date(cand).getUTCMonth() !== mo) continue;
+						}
+						if (!emit(cand)) break;
+					}
+				} else if (freq === 'YEARLY') {
+					for (var yy = 0; guard++ < 200; yy += interval) {
+						if (!emit(Date.UTC(w.year + yy, w.month - 1, w.day))) break;
+					}
+				} else {
+					out.push(ev.start.date);
+				}
+				return out;
+			}
+
+			function buildOccurrences(events) {
+				var now = new Date(), from = new Date(now.getTime() - 864e5 * 0), to = new Date(now.getTime() + HORIZON_DAYS * 864e5);
+				var overrides = {};
+				events.forEach(function (e) {
+					if (e.recurrenceId) overrides[e.uid + '|' + e.recurrenceId.date.getTime()] = e;
+				});
+				var occ = [];
+				events.forEach(function (e) {
+					if (!e.start || isNaN(e.start.date) || e.status === 'CANCELLED') return;
+					if (e.recurrenceId) {
+						pushOcc(e, e.start.date);
+						return;
+					}
+					expand(e, from, to).forEach(function (d) {
+						var o = overrides[e.uid + '|' + d.getTime()];
+						if (o) return; // override added separately
+						pushOcc(e, d);
+					});
+				});
+				function pushOcc(e, start) {
+					var dur = e.end ? e.end.date - e.start.date : 0;
+					var end = new Date(start.getTime() + dur);
+					// all-day DTEND is exclusive
+					var effEnd = e.start.allDay ? new Date(end.getTime() - 1) : end;
+					if (effEnd < from || start > to) return;
+					occ.push({ ev: e, start: start, end: end, allDay: e.start.allDay });
+				}
+				// A Google event titled "Downbeat" at exactly the same time as a Luma event is a duplicate; keep the Luma one.
+				var lumaTimes = {};
+				occ.forEach(function (o) {
+					if (o.ev.source === 'luma') lumaTimes[o.start.getTime() + '|' + o.end.getTime()] = true;
+				});
+				occ = occ.filter(function (o) {
+					return o.ev.source === 'luma' || !/downbeat/i.test(o.ev.summary || '') ||
+						!lumaTimes[o.start.getTime() + '|' + o.end.getTime()];
+				});
+				occ.sort(function (a, b) { return a.start - b.start; });
+				return occ;
+			}
+
+			// ---------- Rendering ----------
+			function fmt(date, opts) {
+				opts.timeZone = DISPLAY_TZ;
+				return new Intl.DateTimeFormat('en-US', opts).format(date);
+			}
+
+			function el(tag, cls, text) {
+				var n = document.createElement(tag);
+				if (cls) n.className = cls;
+				if (text != null) n.textContent = text;
+				return n;
+			}
+
+			function linkify(container, text) {
+				var re = /(https?:\/\/[^\s<>"]+)/g, last = 0, m;
+				while ((m = re.exec(text))) {
+					container.appendChild(document.createTextNode(text.slice(last, m.index)));
+					var a = el('a', null, m[1]); a.href = m[1]; a.target = '_blank'; a.rel = 'noopener';
+					container.appendChild(a);
+					last = m.index + m[1].length;
+				}
+				container.appendChild(document.createTextNode(text.slice(last)));
+			}
+
+			function stripHtml(s) {
+				return s.replace(/<br\s*\/?>/gi, '\n').replace(/<\/(p|div|li)>/gi, '\n').replace(/<[^>]+>/g, '')
+					.replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+					.replace(/\n{3,}/g, '\n\n').trim();
+			}
+
+			function timeText(o) {
+				if (o.allDay) return 'All day';
+				var t = { hour: 'numeric', minute: '2-digit' };
+				var s = fmt(o.start, t);
+				if (o.end > o.start) {
+					var sameDay = fmt(o.start, { dateStyle: 'short' }) === fmt(o.end, { dateStyle: 'short' });
+					s += ' – ' + (sameDay ? fmt(o.end, t) : fmt(o.end, { weekday: 'short', hour: 'numeric', minute: '2-digit' }));
+				}
+				return s;
+			}
+
+			function gcalLink(o) {
+				var f = function (d) { return d.toISOString().replace(/[-:]|\.\d{3}/g, ''); };
+				var dates = o.allDay
+					? o.start.toISOString().slice(0, 10).replace(/-/g, '') + '/' + o.end.toISOString().slice(0, 10).replace(/-/g, '')
+					: f(o.start) + '/' + f(o.end);
+				return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(o.ev.summary || '') +
+					'&dates=' + dates + '&location=' + encodeURIComponent(o.ev.location || '') +
+					'&details=' + encodeURIComponent(o.ev.description ? stripHtml(o.ev.description) : '');
+			}
+
+			var LUMA_URL_RE = /https:\/\/(?:luma\.com|lu\.ma)\/[A-Za-z0-9_-]+/;
+			var lumaImages = {};
+
+			// Luma's boilerplate description repeats the location and a link; keep only what's left.
+			function lumaExtras(e) {
+				var d = e.description || '';
+				var m = d.match(LUMA_URL_RE);
+				var rest = d.replace(/Get up-to-date information at:\s*\S+/, '')
+					.replace(/Address:\n[\s\S]*?(?=\n\nHosted by|$)/, '')
+					.replace(/^\s*Hosted by The Downbeat\s*$/, '')
+					.trim();
+				return { url: m ? m[0] : null, description: rest };
+			}
+
+			function card(o) {
+				var e = o.ev, c = el('article', 'cal-card');
+				var luma = null;
+				if (e.source === 'luma') {
+					c.classList.add('cal-luma');
+					luma = lumaExtras(e);
+				}
+				var desc_ = luma ? luma.description : e.description;
+				var d = el('div', 'cal-date');
+				d.appendChild(el('span', 'dow', fmt(o.start, { weekday: 'short' })));
+				d.appendChild(el('span', 'day', fmt(o.start, { day: 'numeric' })));
+				c.appendChild(d);
+
+				var b = el('div', 'cal-body');
+				var hasCover = false;
+				if (luma && luma.url && lumaImages[luma.url]) {
+					var ia = el('a', 'cal-img');
+					ia.href = luma.url; ia.target = '_blank'; ia.rel = 'noopener';
+					var img = el('img'); img.src = lumaImages[luma.url]; img.alt = e.summary || ''; img.loading = 'lazy'; hasCover = true;
+					ia.appendChild(img); b.appendChild(ia);
+				}
+				// Luma covers already have the title baked in, so only show it when there's no cover.
+				if (!hasCover) {
+					var title = el('h3', 'cal-title', e.summary || '(No title)');
+					b.appendChild(title);
+					title.style.cssText = 'font-family:Quicksand,sans-serif;opacity:1;text-transform:none;margin:0 0 4px';
+				}
+				var tm = el('p', 'cal-meta'); tm.appendChild(el('span', 'ico', '🕒')); tm.appendChild(document.createTextNode(timeText(o)));
+				if (luma) {
+					var row = el('div', 'cal-timerow');
+					row.appendChild(tm);
+					row.appendChild(el('span', 'cal-tag', 'Official Downbeat event'));
+					b.appendChild(row);
+				} else {
+					b.appendChild(tm);
+				}
+				if (e.location) {
+					var lm = el('p', 'cal-meta'); lm.appendChild(el('span', 'ico', '📍'));
+					var la = el('a', null, e.location);
+					la.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(e.location);
+					la.target = '_blank'; la.rel = 'noopener';
+					lm.appendChild(la); b.appendChild(lm);
+				}
+				if (desc_) {
+					var desc = el('p', 'cal-desc clamp');
+					linkify(desc, stripHtml(desc_));
+					b.appendChild(desc);
+					var btn = el('button', 'cal-more', 'Show more');
+					btn.type = 'button';
+					btn.onclick = function () {
+						var clamped = desc.classList.toggle('clamp');
+						btn.textContent = clamped ? 'Show more' : 'Show less';
+					};
+					b.appendChild(btn);
+					requestAnimationFrame(function () {
+						if (desc.scrollHeight <= desc.clientHeight + 1) btn.remove();
+					});
+				}
+				var act = el('div', 'cal-actions');
+				if (luma && luma.url) {
+					var rsvp = el('a', null, 'Details & RSVP on Luma'); rsvp.href = luma.url; rsvp.target = '_blank'; rsvp.rel = 'noopener';
+					act.appendChild(rsvp);
+				}
+				var add = el('a', 'cal-add', 'Add to calendar'); add.href = gcalLink(o); add.target = '_blank'; add.rel = 'noopener';
+				act.appendChild(add);
+				b.appendChild(act);
+				c.appendChild(b);
+				return c;
+			}
+
+			function render(occ) {
+				root.innerHTML = '';
+				if (!occ.length) {
+					var s = el('div', 'cal-status', 'No upcoming events right now. Check back soon!');
+					root.appendChild(s); return;
+				}
+				var lastMonth = '';
+				occ.forEach(function (o) {
+					var m = fmt(o.start, { month: 'long', year: 'numeric' });
+					if (m !== lastMonth) {
+						root.appendChild(el('h2', 'cal-month', m));
+						lastMonth = m;
+					}
+					root.appendChild(card(o));
+				});
+				var foot = el('div', 'cal-status');
+				foot.appendChild(document.createTextNode('Times shown in Pacific Time. '));
+				var a = el('a', null, 'Open in Google Calendar');
+				a.href = 'https://calendar.google.com/calendar/u/1/embed?src=' + encodeURIComponent(CAL_ID) + '&ctz=' + DISPLAY_TZ;
+				foot.appendChild(a);
+				root.appendChild(foot);
+			}
+
+			// Optional: Luma cover images, built by the sync workflow. Cards just skip the image without it.
+			function fetchLumaImages() {
+				return fetch('../calendar/luma-images.json', { cache: 'no-cache' }).then(function (r) {
+					return r.ok ? r.json() : {};
+				}).catch(function () { return {}; });
+			}
+
+			Promise.all([fetchIcs(), fetchLumaImages()]).then(function (res) {
+				lumaImages = res[1];
+				var events = [];
+				res[0].forEach(function (f) { events = events.concat(parseEvents(f.text, f.source)); });
+				render(buildOccurrences(events));
+			}).catch(function () {
+				root.innerHTML = '';
+				var s = el('div', 'cal-status', 'Sorry, we couldn’t load the calendar. ');
+				var a = el('a', null, 'View it on Google Calendar');
+				a.href = 'https://calendar.google.com/calendar/u/1/embed?src=' + encodeURIComponent(CAL_ID) + '&ctz=' + DISPLAY_TZ;
+				s.appendChild(a); root.appendChild(s);
+			});
+		})();
+		</script>
+		<button id="bs-toggle" type="button" aria-expanded="false" aria-controls="bs">🎨 Colors</button>
+		<div id="bs" role="dialog" aria-label="Brand color switcher"></div>
+		<div id="bs-toast" role="status"></div>
+
+		<script>
+		// Brand color switcher: assign palette colors to page roles, shuffle, lock, mix palettes, share the result.
+		(function () {
+			var PALETTES = {
+				a: { name: 'Palette A', colors: ['#6dbad7', '#006da5', '#bfacc8', '#d5c67a', '#171a21'],
+					defaults: { bg: '#d5c67a', surface: '#ffffff', ink: '#171a21', heading: '#006da5', tile: '#6dbad7', link: '#171a21' } },
+				b: { name: 'Palette B', colors: ['#6dbad7', '#006da5', '#252323', '#de6449', '#13070c'],
+					defaults: { bg: '#13070c', surface: '#252323', ink: '#ffffff', heading: '#de6449', tile: '#de6449', link: '#6dbad7' } }
+			};
+			var NEUTRALS = ['#ffffff']; // always available so cards/text have a clean light option
+			// key, label, hash param, minimum contrast it should meet, and what that contrast is measured against
+			var ROLES = [
+				{ key: 'bg', label: 'Page background', hash: 'bg', need: 4.5, note: 'text on page' },
+				{ key: 'surface', label: 'Cards', hash: 'card', need: 4.5, note: 'text on cards' },
+				{ key: 'ink', label: 'Text', hash: 'text', need: 4.5, note: 'worst of page / cards' },
+				{ key: 'heading', label: 'Headings', hash: 'head', need: 3, note: 'on page' },
+				{ key: 'tile', label: 'Date tile', hash: 'tile', need: 1.4, note: 'vs cards' },
+				{ key: 'link', label: 'Links & tags', hash: 'link', need: 4.5, note: 'worst of page / cards' }
+			];
+
+			var $ = function (id) { return document.getElementById(id); };
+			var panel = $('bs'), toggle = $('bs-toggle'), toastEl = $('bs-toast');
+
+			// ---------- color math ----------
+			function lum(hex) {
+				var c = [1, 3, 5].map(function (i) { return parseInt(hex.slice(i, i + 2), 16) / 255; }).map(function (x) {
+					return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+				});
+				return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+			}
+			function contrast(a, b) {
+				var la = lum(a), lb = lum(b);
+				if (la < lb) { var t = la; la = lb; lb = t; }
+				return (la + 0.05) / (lb + 0.05);
+			}
+			function ratios(c) {
+				return {
+					bg: contrast(c.ink, c.bg),
+					surface: contrast(c.ink, c.surface),
+					ink: Math.min(contrast(c.ink, c.bg), contrast(c.ink, c.surface)),
+					heading: contrast(c.heading, c.bg),
+					tile: contrast(c.tile, c.surface),
+					link: Math.min(contrast(c.link, c.bg), contrast(c.link, c.surface))
+				};
+			}
+
+			// ---------- state ----------
+			var state, history = [];
+
+			function poolColors(pool) {
+				var out = [];
+				(pool === 'mix' ? PALETTES.a.colors.concat(PALETTES.b.colors) : PALETTES[pool].colors).concat(NEUTRALS)
+					.forEach(function (c) { if (out.indexOf(c) < 0) out.push(c); });
+				return out;
+			}
+			function fresh(pool) {
+				var d = PALETTES[pool].defaults, colors = {};
+				ROLES.forEach(function (r) { colors[r.key] = d[r.key]; });
+				return { pool: pool, colors: colors, locks: {} };
+			}
+			function snapshot() { return JSON.stringify({ pool: state.pool, colors: state.colors, locks: state.locks }); }
+			function pushHistory(snap) { history.push(snap || snapshot()); if (history.length > 60) history.shift(); }
+
+			function readHash() {
+				var p = {};
+				location.hash.replace(/^#/, '').split('&').forEach(function (kv) { var a = kv.split('='); if (a[0]) p[a[0]] = a[1]; });
+				var pool = (p.pool === 'mix' || PALETTES[p.pool]) ? p.pool : 'a';
+				var st = fresh(pool === 'mix' ? 'a' : pool);
+				st.pool = pool;
+				ROLES.forEach(function (r) { if (/^[0-9a-f]{6}$/i.test(p[r.hash] || '')) st.colors[r.key] = '#' + p[r.hash].toLowerCase(); });
+				return st;
+			}
+			function writeHash() {
+				var parts = ['pool=' + state.pool];
+				ROLES.forEach(function (r) { parts.push(r.hash + '=' + state.colors[r.key].slice(1)); });
+				try { history_replace('#' + parts.join('&')); } catch (e) {}
+			}
+			function history_replace(h) { window.history.replaceState(null, '', h); }
+
+			// ---------- apply to page ----------
+			function apply() {
+				var c = state.colors, root = document.documentElement.style;
+				ROLES.forEach(function (r) { root.setProperty('--' + r.key, c[r.key]); });
+				root.setProperty('--tile-ink', contrast('#ffffff', c.tile) >= contrast('#000000', c.tile) ? '#ffffff' : '#000000');
+				root.setProperty('color-scheme', lum(c.bg) < 0.18 ? 'dark' : 'light');
+				writeHash();
+			}
+
+			// ---------- shuffle ----------
+			var TIERS = [
+				// strict: readable everywhere and the tile stands out from the card
+				function (c, r) { return r.ink >= 4.5 && r.heading >= 3 && r.link >= 4.5 && r.tile >= 1.4 && c.bg !== c.surface && contrast(c.bg, c.surface) >= 1.1; },
+				// relaxed links
+				function (c, r) { return r.ink >= 4.5 && r.heading >= 3 && r.link >= 3 && r.tile >= 1.4 && c.bg !== c.surface; },
+				// at least keep text readable
+				function (c, r) { return r.ink >= 4.5 && c.bg !== c.surface; }
+			];
+			function shuffle() {
+				var pool = poolColors(state.pool), best = null;
+				for (var t = 0; t < TIERS.length && !best; t++) {
+					for (var i = 0; i < 4000; i++) {
+						var c = {};
+						ROLES.forEach(function (r) { c[r.key] = state.locks[r.key] ? state.colors[r.key] : pool[Math.floor(Math.random() * pool.length)]; });
+						if (TIERS[t](c, ratios(c))) { best = c; break; }
+					}
+				}
+				if (!best) { toast('No readable combo with those locks, try unlocking one'); return; }
+				pushHistory();
+				state.colors = best;
+				refresh();
+			}
+
+			// ---------- panel UI ----------
+			function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+			function dots(list) { return '<span class="bs-dots">' + list.map(function (c) { return '<i style="background:' + c + '"></i>'; }).join('') + '</span>'; }
+
+			function render() {
+				var pool = poolColors(state.pool), r = ratios(state.colors);
+				var h = '<div class="bs-title">Brand colors</div><div class="bs-row">';
+				['a', 'b', 'mix'].forEach(function (k) {
+					var list = k === 'mix' ? poolColors('mix') : PALETTES[k].colors;
+					h += '<button type="button" class="bs-btn bs-pool' + (state.pool === k ? ' on' : '') + '" data-pool="' + k + '" title="' +
+						(k === 'mix' ? 'Use every color from both palettes (keeps your current picks)' : 'Load ' + PALETTES[k].name + ' as designed') + '">' +
+						(k === 'mix' ? 'Mix both' : PALETTES[k].name) + dots(list) + '</button>';
+				});
+				h += '</div><div class="bs-row">' +
+					'<button type="button" class="bs-btn primary" data-act="shuffle" title="Shortcut: S">🎲 Shuffle</button>' +
+					'<button type="button" class="bs-btn" data-act="back"' + (history.length ? '' : ' disabled') + '>↩ Back</button>' +
+					'<button type="button" class="bs-btn" data-act="copycss">Copy CSS</button>' +
+					'<button type="button" class="bs-btn" data-act="copylink">Copy link</button></div>';
+
+				ROLES.forEach(function (role) {
+					var cur = state.colors[role.key], ok = r[role.key] >= role.need, sws = pool.slice();
+					if (sws.indexOf(cur) < 0) sws.push(cur);
+					h += '<div class="bs-role"><div class="bs-rolehead"><span class="bs-rolename">' + role.label + '</span>' +
+						'<span class="bs-badge' + (ok ? '' : ' bad') + '" data-badge="' + role.key + '" title="Contrast: ' + role.note + '">' +
+						r[role.key].toFixed(1) + ':1 ' + (ok ? '✓' : '⚠') + '</span>' +
+						'<span class="bs-hex" data-hex="' + role.key + '">' + cur + '</span>' +
+						'<button type="button" class="bs-lock" data-lock="' + role.key + '" aria-pressed="' + !!state.locks[role.key] + '" title="Lock this color so Shuffle leaves it alone">🔒</button></div>' +
+						'<div class="bs-sws">';
+					sws.forEach(function (c) {
+						h += '<button type="button" class="sw" data-role="' + role.key + '" data-color="' + c + '" style="background:' + c + '" aria-label="' +
+							role.label + ' ' + c + '" title="' + c + '" aria-pressed="' + (c === cur) + '"></button>';
+					});
+					h += '<label class="sw custom" title="Custom color"><input type="color" data-custom="' + role.key + '" value="' + esc(cur) + '"></label></div></div>';
+				});
+				h += '<div class="bs-foot">Badges show contrast (✓ meets the goal). The URL updates as you go, so you can share any combo. Press S to shuffle.</div>';
+				panel.innerHTML = h;
+			}
+
+			function updateBadges() {
+				var r = ratios(state.colors);
+				ROLES.forEach(function (role) {
+					var b = panel.querySelector('[data-badge="' + role.key + '"]'), ok = r[role.key] >= role.need;
+					if (!b) return;
+					b.textContent = r[role.key].toFixed(1) + ':1 ' + (ok ? '✓' : '⚠');
+					b.className = 'bs-badge' + (ok ? '' : ' bad');
+					panel.querySelector('[data-hex="' + role.key + '"]').textContent = state.colors[role.key];
+				});
+			}
+
+			function refresh() { apply(); render(); }
+
+			function toast(msg) {
+				toastEl.textContent = msg; toastEl.style.display = 'block';
+				clearTimeout(toast.t); toast.t = setTimeout(function () { toastEl.style.display = 'none'; }, 1800);
+			}
+			function copy(text, msg) {
+				function fallback() {
+					var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+					try { document.execCommand('copy'); } catch (e) {}
+					document.body.removeChild(ta);
+				}
+				(navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).catch(fallback).then(function () { toast(msg); });
+			}
+			function cssText() {
+				var lines = [':root {'];
+				ROLES.forEach(function (r) { lines.push('  --brand-' + r.key + ': ' + state.colors[r.key] + '; /* ' + r.label + ' */'); });
+				lines.push('}');
+				return lines.join('\n');
+			}
+
+			// ---------- events ----------
+			var pendingCustom = null;
+			panel.addEventListener('click', function (e) {
+				var t = e.target.closest('button');
+				if (!t) { if (e.target.closest('input[type=color]')) pendingCustom = snapshot(); return; }
+				if (t.dataset.pool) {
+					pushHistory();
+					if (t.dataset.pool === 'mix') state.pool = 'mix';
+					else { var locks = state.locks; state = fresh(t.dataset.pool); state.locks = locks; }
+					refresh();
+				} else if (t.dataset.act === 'shuffle') shuffle();
+				else if (t.dataset.act === 'back') {
+					if (history.length) { var prev = JSON.parse(history.pop()); state = prev; refresh(); }
+				} else if (t.dataset.act === 'copycss') copy(cssText(), 'CSS copied');
+				else if (t.dataset.act === 'copylink') copy(location.href, 'Link copied');
+				else if (t.dataset.lock) { state.locks[t.dataset.lock] = !state.locks[t.dataset.lock]; render(); }
+				else if (t.dataset.role) {
+					if (state.colors[t.dataset.role] !== t.dataset.color) { pushHistory(); state.colors[t.dataset.role] = t.dataset.color; refresh(); }
+				}
+			});
+			panel.addEventListener('input', function (e) {
+				var k = e.target.dataset && e.target.dataset.custom;
+				if (!k) return;
+				if (pendingCustom) { pushHistory(pendingCustom); pendingCustom = null; }
+				state.colors[k] = e.target.value.toLowerCase();
+				apply(); updateBadges();
+			});
+			panel.addEventListener('change', function (e) { if (e.target.dataset && e.target.dataset.custom) render(); });
+
+			toggle.addEventListener('click', function () {
+				var open = panel.classList.toggle('open');
+				toggle.setAttribute('aria-expanded', open);
+			});
+			document.addEventListener('keydown', function (e) {
+				if (e.metaKey || e.ctrlKey || e.altKey) return;
+				if (/^(input|textarea|select)$/i.test(e.target.tagName)) return;
+				if (e.key === 's' || e.key === 'S') { shuffle(); e.preventDefault(); }
+				else if (e.key === 'Escape') { panel.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
+			});
+
+			// Pasting or editing a #hash in the same tab doesn't reload the page, so follow it.
+			window.addEventListener('hashchange', function () {
+				var next = readHash(), locks = state.locks;
+				if (JSON.stringify(next.colors) === JSON.stringify(state.colors) && next.pool === state.pool) return;
+				pushHistory();
+				state = next; state.locks = locks;
+				refresh();
+			});
+
+			state = readHash();
+			refresh();
+		})();
+		</script>
+	</body>
+</html>
