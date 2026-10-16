@@ -15,19 +15,21 @@
 			/* Color roles. The switcher at the bottom of the page rewrites these live. */
 			:root {
 				--bg: #d5c67a; --surface: #ffffff; --ink: #171a21;
-				--heading: #006da5; --tile: #6dbad7; --link: #171a21; --tile-ink: #000000;
+				--heading: #006da5; --tile: #6dbad7; --link: #171a21; --tag: #006da5; --tile-ink: #000000;
+				--heading-font: 'Caveat', cursive;
 				--muted: color-mix(in srgb, var(--ink) 72%, var(--surface));
 				--line: color-mix(in srgb, var(--ink) 14%, transparent);
 			}
 			body { background: var(--bg); color: var(--ink); min-height: 100vh; }
 			a { color: var(--link); }
+			h1, h2, h3, .cal-month { font-family: var(--heading-font); }
 			header { padding-bottom: 10px; }
 			header h1 { font-size: 48px; color: var(--heading); }
 			header p, header .back { font-size: 18px; font-weight: normal; }
 			header p { margin: 0 auto 6px; max-width: 560px; }
 			.cal { max-width: 640px; margin: 0 auto; padding: 0 16px 96px; }
 			.cal-month {
-				font-family: 'Caveat', cursive; font-weight: normal;
+				font-weight: normal;
 				font-size: 32px; margin: 32px 0 12px; opacity: 1; color: var(--heading);
 			}
 			.cal-card {
@@ -56,7 +58,7 @@
 			.cal-timerow { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 2px 10px; }
 			.cal-tag {
 				margin: 2px 0; padding: 1px 8px; border-radius: 999px; white-space: nowrap;
-				background: color-mix(in srgb, var(--link) 14%, transparent); color: var(--link); font-size: 11px; font-weight: 700;
+				background: color-mix(in srgb, var(--tag) 14%, transparent); color: var(--tag); font-size: 11px; font-weight: 700;
 			}
 			.cal-img { display: block; margin: 0 0 10px; }
 			.cal-img img { display: block; width: 100%; aspect-ratio: 2.2 / 1; object-fit: cover; border-radius: 8px; background: color-mix(in srgb, var(--ink) 10%, var(--surface)); }
@@ -107,6 +109,18 @@
 			#bs .sw[aria-pressed="true"] { outline: 2px solid #222; outline-offset: 2px; }
 			#bs .sw.custom { background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red); overflow: hidden; }
 			#bs .sw.custom input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+			#bs .bs-fontbox { border-top: 1px solid #eee; padding: 9px 0 6px; }
+			#bs .bs-fontcur { display: flex; gap: 6px; align-items: center; margin: 6px 0; }
+			#bs .bs-fontname { flex: 1; font-size: 26px; line-height: 1.1; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 2px 0; }
+			#bs .bs-fontsearch { width: 100%; padding: 7px 9px; border: 1px solid #d5d5da; border-radius: 8px; font: inherit; color: #222; margin: 6px 0; }
+			#bs .bs-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 6px; }
+			#bs .bs-chip { padding: 3px 9px; border-radius: 999px; border: 1px solid #d5d5da; background: #fff; font-size: 12px; }
+			#bs .bs-chip[aria-pressed="true"] { background: #222; color: #fff; border-color: #222; }
+			#bs .bs-fontlist { max-height: 230px; overflow-y: auto; border: 1px solid #e3e3e8; border-radius: 8px; }
+			#bs .bs-fontrow { display: block; width: 100%; text-align: left; background: #fff; border: 0; border-bottom: 1px solid #f0f0f3; padding: 7px 10px; font-size: 21px; line-height: 1.2; }
+			#bs .bs-fontrow:hover { background: #f6f6f9; }
+			#bs .bs-fontrow[aria-pressed="true"] { background: #e8e4f2; }
+			#bs .bs-fontmeta { color: #888; font-size: 11px; margin-top: 4px; }
 			#bs .bs-foot { color: #777; font-size: 11px; margin-top: 8px; }
 			#bs-toast { position: fixed; left: 50%; bottom: 76px; transform: translateX(-50%); z-index: 60; background: #222; color: #fff; padding: 8px 14px; border-radius: 8px; font: 700 13px Quicksand, sans-serif; display: none; }
 		</style>
@@ -541,9 +555,9 @@
 		(function () {
 			var PALETTES = {
 				a: { name: 'Palette A', colors: ['#6dbad7', '#006da5', '#bfacc8', '#d5c67a', '#171a21'],
-					defaults: { bg: '#d5c67a', surface: '#ffffff', ink: '#171a21', heading: '#006da5', tile: '#6dbad7', link: '#171a21' } },
+					defaults: { bg: '#d5c67a', surface: '#ffffff', ink: '#171a21', heading: '#006da5', tile: '#6dbad7', link: '#171a21', tag: '#006da5' } },
 				b: { name: 'Palette B', colors: ['#6dbad7', '#006da5', '#252323', '#de6449', '#13070c'],
-					defaults: { bg: '#13070c', surface: '#252323', ink: '#ffffff', heading: '#de6449', tile: '#de6449', link: '#6dbad7' } }
+					defaults: { bg: '#13070c', surface: '#252323', ink: '#ffffff', heading: '#de6449', tile: '#de6449', link: '#6dbad7', tag: '#6dbad7' } }
 			};
 			var NEUTRALS = ['#ffffff']; // always available so cards/text have a clean light option
 			// key, label, hash param, minimum contrast it should meet, and what that contrast is measured against
@@ -553,7 +567,8 @@
 				{ key: 'ink', label: 'Text', hash: 'text', need: 4.5, note: 'worst of page / cards' },
 				{ key: 'heading', label: 'Headings', hash: 'head', need: 3, note: 'on page' },
 				{ key: 'tile', label: 'Date tile', hash: 'tile', need: 1.4, note: 'vs cards' },
-				{ key: 'link', label: 'Links & tags', hash: 'link', need: 4.5, note: 'worst of page / cards' }
+				{ key: 'link', label: 'Links', hash: 'link', need: 4.5, note: 'worst of page / cards' },
+				{ key: 'tag', label: 'Tags', hash: 'tag', need: 4.5, note: 'tag text vs its tinted pill' }
 			];
 
 			var $ = function (id) { return document.getElementById(id); };
@@ -571,6 +586,13 @@
 				if (la < lb) { var t = la; la = lb; lb = t; }
 				return (la + 0.05) / (lb + 0.05);
 			}
+			// The tag pill is the tag color at 14% over the card (see .cal-tag), so measure text against that blend.
+			function blend(fg, bg, a) {
+				return '#' + [1, 3, 5].map(function (i) {
+					var v = Math.round(parseInt(fg.slice(i, i + 2), 16) * a + parseInt(bg.slice(i, i + 2), 16) * (1 - a));
+					return ('0' + v.toString(16)).slice(-2);
+				}).join('');
+			}
 			function ratios(c) {
 				return {
 					bg: contrast(c.ink, c.bg),
@@ -578,11 +600,13 @@
 					ink: Math.min(contrast(c.ink, c.bg), contrast(c.ink, c.surface)),
 					heading: contrast(c.heading, c.bg),
 					tile: contrast(c.tile, c.surface),
-					link: Math.min(contrast(c.link, c.bg), contrast(c.link, c.surface))
+					link: Math.min(contrast(c.link, c.bg), contrast(c.link, c.surface)),
+					tag: contrast(c.tag, blend(c.tag, c.surface, 0.14))
 				};
 			}
 
 			// ---------- state ----------
+			var DEFAULT_FONT = 'Caveat';
 			var state, history = [];
 
 			function poolColors(pool) {
@@ -594,9 +618,9 @@
 			function fresh(pool) {
 				var d = PALETTES[pool].defaults, colors = {};
 				ROLES.forEach(function (r) { colors[r.key] = d[r.key]; });
-				return { pool: pool, colors: colors, locks: {} };
+				return { pool: pool, colors: colors, locks: {}, font: DEFAULT_FONT };
 			}
-			function snapshot() { return JSON.stringify({ pool: state.pool, colors: state.colors, locks: state.locks }); }
+			function snapshot() { return JSON.stringify({ pool: state.pool, colors: state.colors, locks: state.locks, font: state.font }); }
 			function pushHistory(snap) { history.push(snap || snapshot()); if (history.length > 60) history.shift(); }
 
 			function readHash() {
@@ -606,11 +630,15 @@
 				var st = fresh(pool === 'mix' ? 'a' : pool);
 				st.pool = pool;
 				ROLES.forEach(function (r) { if (/^[0-9a-f]{6}$/i.test(p[r.hash] || '')) st.colors[r.key] = '#' + p[r.hash].toLowerCase(); });
+				// Links made before tags had their own color: keep that look by sharing the link color.
+				if (!/^[0-9a-f]{6}$/i.test(p.tag || '') && /^[0-9a-f]{6}$/i.test(p.link || '')) st.colors.tag = st.colors.link;
+				if (p.font) { try { st.font = decodeURIComponent(p.font.replace(/\+/g, ' ')).slice(0, 80); } catch (e) {} }
 				return st;
 			}
 			function writeHash() {
 				var parts = ['pool=' + state.pool];
 				ROLES.forEach(function (r) { parts.push(r.hash + '=' + state.colors[r.key].slice(1)); });
+				parts.push('font=' + encodeURIComponent(state.font));
 				try { history_replace('#' + parts.join('&')); } catch (e) {}
 			}
 			function history_replace(h) { window.history.replaceState(null, '', h); }
@@ -619,6 +647,8 @@
 			function apply() {
 				var c = state.colors, root = document.documentElement.style;
 				ROLES.forEach(function (r) { root.setProperty('--' + r.key, c[r.key]); });
+				root.setProperty('--heading-font', fontStack(state.font));
+				if (fonts.length) loadFull(state.font); // wait for the list so fonts needing an explicit weight get the right URL
 				root.setProperty('--tile-ink', contrast('#ffffff', c.tile) >= contrast('#000000', c.tile) ? '#ffffff' : '#000000');
 				root.setProperty('color-scheme', lum(c.bg) < 0.18 ? 'dark' : 'light');
 				writeHash();
@@ -627,9 +657,9 @@
 			// ---------- shuffle ----------
 			var TIERS = [
 				// strict: readable everywhere and the tile stands out from the card
-				function (c, r) { return r.ink >= 4.5 && r.heading >= 3 && r.link >= 4.5 && r.tile >= 1.4 && c.bg !== c.surface && contrast(c.bg, c.surface) >= 1.1; },
+				function (c, r) { return r.ink >= 4.5 && r.heading >= 3 && r.link >= 4.5 && r.tag >= 4.5 && r.tile >= 1.4 && c.bg !== c.surface && contrast(c.bg, c.surface) >= 1.1; },
 				// relaxed links
-				function (c, r) { return r.ink >= 4.5 && r.heading >= 3 && r.link >= 3 && r.tile >= 1.4 && c.bg !== c.surface; },
+				function (c, r) { return r.ink >= 4.5 && r.heading >= 3 && r.link >= 3 && r.tag >= 3 && r.tile >= 1.4 && c.bg !== c.surface; },
 				// at least keep text readable
 				function (c, r) { return r.ink >= 4.5 && c.bg !== c.surface; }
 			];
@@ -648,12 +678,122 @@
 				refresh();
 			}
 
+			// ---------- heading font ----------
+			// google-fonts.json is [family, category, weight?] for every Google Fonts family with Latin glyphs (icon fonts left out).
+			// To refresh it: https://api.fontsource.org/v1/fonts?subsets=latin&type=google
+			// Only the picked font is downloaded in full; list rows load a tiny name-only subset as they scroll into view.
+			var fonts = [], fontIdx = {}, loadedFull = { Caveat: true }, loadedPrev = {}, fontUI = { open: false, q: '', cat: 'all' };
+			var CATS = [['all', 'All'], ['handwriting', 'Handwriting'], ['display', 'Display'], ['serif', 'Serif'], ['sans-serif', 'Sans'], ['monospace', 'Mono']];
+			var GENERIC = { 'sans-serif': 'sans-serif', serif: 'serif', monospace: 'monospace', handwriting: 'cursive', display: 'cursive' };
+
+			function entryFor(family) { return fontIdx[family] || [family, 'handwriting']; }
+			function fontStack(family) { return "'" + family.replace(/['\\]/g, '') + "', " + (GENERIC[entryFor(family)[1]] || 'sans-serif'); }
+			function fontUrl(family, text) {
+				var e = entryFor(family);
+				return 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(family).replace(/%20/g, '+') +
+					(e[2] ? ':wght@' + e[2] : '') + (text ? '&text=' + encodeURIComponent(text) : '') + '&display=swap';
+			}
+			function addSheet(url) { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = url; document.head.appendChild(l); }
+			function loadFull(family) { if (loadedFull[family]) return; loadedFull[family] = true; addSheet(fontUrl(family)); }
+			// A previewed font that's later picked gets its full sheet added after, which then takes priority.
+			function loadPreview(family) { if (loadedFull[family] || loadedPrev[family]) return; loadedPrev[family] = true; addSheet(fontUrl(family, family)); }
+
+			function filteredFonts() {
+				var q = fontUI.q.trim().toLowerCase();
+				return fonts.filter(function (f) { return (fontUI.cat === 'all' || f[1] === fontUI.cat) && (!q || f[0].toLowerCase().indexOf(q) >= 0); });
+			}
+
+			function buildFontBox() {
+				$('bs-fontbox').innerHTML =
+					'<div class="bs-rolehead"><span class="bs-rolename">Heading font</span><span class="bs-hex" id="bs-fontcount"></span></div>' +
+					'<div class="bs-fontcur"><button type="button" class="bs-btn" data-fontact="prev" aria-label="Previous font">◀</button>' +
+					'<div class="bs-fontname" id="bs-fontname"></div>' +
+					'<button type="button" class="bs-btn" data-fontact="next" aria-label="Next font">▶</button>' +
+					'<button type="button" class="bs-btn" data-fontact="rand" title="Random font (F)" aria-label="Random font">🎲</button></div>' +
+					'<button type="button" class="bs-btn" data-fontact="toggle" id="bs-fonttoggle">Browse all fonts</button>' +
+					'<div id="bs-fontbrowse" hidden><input type="search" class="bs-fontsearch" id="bs-fontq" data-fontq placeholder="Search fonts…" autocomplete="off">' +
+					'<div class="bs-chips">' + CATS.map(function (c) {
+						return '<button type="button" class="bs-chip" data-fontact="cat" data-cat="' + c[0] + '" aria-pressed="false">' + c[1] + '</button>';
+					}).join('') + '</div><div class="bs-fontlist" id="bs-fontlist"></div><div class="bs-fontmeta" id="bs-fontmeta"></div></div>';
+				updateFontUI();
+			}
+
+			function updateFontUI() {
+				var n = $('bs-fontname');
+				if (!n) return;
+				n.textContent = state.font; n.style.fontFamily = fontStack(state.font); n.title = state.font;
+				$('bs-fontcount').textContent = fonts.length ? fonts.length.toLocaleString() + ' Google fonts' : 'loading list…';
+				var t = $('bs-fonttoggle'); t.disabled = !fonts.length; t.textContent = fontUI.open ? 'Hide list' : 'Browse all fonts';
+				$('bs-fontbrowse').hidden = !fontUI.open;
+				[].forEach.call(panel.querySelectorAll('.bs-chip'), function (c) { c.setAttribute('aria-pressed', c.dataset.cat === fontUI.cat); });
+				[].forEach.call(panel.querySelectorAll('.bs-fontrow'), function (r) { r.setAttribute('aria-pressed', r.dataset.font === state.font); });
+			}
+
+			var fontObserver;
+			function renderFontList() {
+				var list = $('bs-fontlist'), items = filteredFonts();
+				list.innerHTML = items.map(function (f) {
+					return '<button type="button" class="bs-fontrow" data-fontact="pick" data-font="' + esc(f[0]) + '" style="font-family:' + esc(fontStack(f[0])) +
+						'" aria-pressed="' + (f[0] === state.font) + '">' + esc(f[0]) + '</button>';
+				}).join('') || '<div class="bs-fontmeta" style="padding:10px">No fonts match.</div>';
+				$('bs-fontmeta').textContent = items.length.toLocaleString() + ' shown';
+				if (fontObserver) fontObserver.disconnect();
+				if ('IntersectionObserver' in window) {
+					fontObserver = new IntersectionObserver(function (entries) {
+						entries.forEach(function (en) { if (en.isIntersecting) { loadPreview(en.target.dataset.font); fontObserver.unobserve(en.target); } });
+					}, { root: list, rootMargin: '120px' });
+					[].forEach.call(list.children, function (r) { if (r.dataset.font) fontObserver.observe(r); });
+				}
+			}
+
+			function setFont(family) {
+				if (family === state.font) return;
+				pushHistory();
+				state.font = family;
+				apply(); updateFontUI();
+			}
+			function stepFont(dir) {
+				var items = filteredFonts();
+				if (!items.length) return toast(fonts.length ? 'No fonts match the filter' : 'Font list is still loading');
+				var i = -1;
+				items.forEach(function (f, k) { if (f[0] === state.font) i = k; });
+				i = i < 0 ? (dir > 0 ? 0 : items.length - 1) : (i + dir + items.length) % items.length;
+				setFont(items[i][0]);
+			}
+			function randomFont() {
+				var items = filteredFonts();
+				if (!items.length) return toast(fonts.length ? 'No fonts match the filter' : 'Font list is still loading');
+				setFont(items[Math.floor(Math.random() * items.length)][0]);
+			}
+			function fontAction(t) {
+				switch (t.dataset.fontact) {
+					case 'prev': stepFont(-1); break;
+					case 'next': stepFont(1); break;
+					case 'rand': randomFont(); break;
+					case 'toggle':
+						fontUI.open = !fontUI.open; updateFontUI();
+						if (fontUI.open) {
+							renderFontList();
+							var list = $('bs-fontlist'), sel = list.querySelector('[aria-pressed="true"]');
+							if (sel) list.scrollTop += sel.getBoundingClientRect().top - list.getBoundingClientRect().top - 80;
+						}
+						break;
+					case 'cat': fontUI.cat = t.dataset.cat; updateFontUI(); renderFontList(); break;
+					case 'pick': setFont(t.dataset.font); break;
+				}
+			}
+
 			// ---------- panel UI ----------
 			function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
 			function dots(list) { return '<span class="bs-dots">' + list.map(function (c) { return '<i style="background:' + c + '"></i>'; }).join('') + '</span>'; }
 
 			function render() {
+				if (!$('bs-roles')) {
+					panel.innerHTML = '<div id="bs-head"></div><div class="bs-fontbox" id="bs-fontbox"></div><div id="bs-roles"></div>' +
+						'<div class="bs-foot">Badges show contrast (✓ meets the goal). The URL updates as you go, so you can share any combo. Keys: S shuffles colors, F picks a random font.</div>';
+					buildFontBox();
+				}
 				var pool = poolColors(state.pool), r = ratios(state.colors);
 				var h = '<div class="bs-title">Brand colors</div><div class="bs-row">';
 				['a', 'b', 'mix'].forEach(function (k) {
@@ -667,6 +807,8 @@
 					'<button type="button" class="bs-btn" data-act="back"' + (history.length ? '' : ' disabled') + '>↩ Back</button>' +
 					'<button type="button" class="bs-btn" data-act="copycss">Copy CSS</button>' +
 					'<button type="button" class="bs-btn" data-act="copylink">Copy link</button></div>';
+				$('bs-head').innerHTML = h;
+				h = '';
 
 				ROLES.forEach(function (role) {
 					var cur = state.colors[role.key], ok = r[role.key] >= role.need, sws = pool.slice();
@@ -683,8 +825,7 @@
 					});
 					h += '<label class="sw custom" title="Custom color"><input type="color" data-custom="' + role.key + '" value="' + esc(cur) + '"></label></div></div>';
 				});
-				h += '<div class="bs-foot">Badges show contrast (✓ meets the goal). The URL updates as you go, so you can share any combo. Press S to shuffle.</div>';
-				panel.innerHTML = h;
+				$('bs-roles').innerHTML = h;
 			}
 
 			function updateBadges() {
@@ -698,7 +839,7 @@
 				});
 			}
 
-			function refresh() { apply(); render(); }
+			function refresh() { apply(); render(); updateFontUI(); }
 
 			function toast(msg) {
 				toastEl.textContent = msg; toastEl.style.display = 'block';
@@ -715,7 +856,9 @@
 			function cssText() {
 				var lines = [':root {'];
 				ROLES.forEach(function (r) { lines.push('  --brand-' + r.key + ': ' + state.colors[r.key] + '; /* ' + r.label + ' */'); });
+				lines.push('  --brand-heading-font: ' + fontStack(state.font) + ';');
 				lines.push('}');
+				lines.push('/* Google Fonts: ' + fontUrl(state.font) + ' */');
 				return lines.join('\n');
 			}
 
@@ -724,10 +867,11 @@
 			panel.addEventListener('click', function (e) {
 				var t = e.target.closest('button');
 				if (!t) { if (e.target.closest('input[type=color]')) pendingCustom = snapshot(); return; }
+				if (t.dataset.fontact) { fontAction(t); return; }
 				if (t.dataset.pool) {
 					pushHistory();
 					if (t.dataset.pool === 'mix') state.pool = 'mix';
-					else { var locks = state.locks; state = fresh(t.dataset.pool); state.locks = locks; }
+					else { var locks = state.locks, font = state.font; state = fresh(t.dataset.pool); state.locks = locks; state.font = font; }
 					refresh();
 				} else if (t.dataset.act === 'shuffle') shuffle();
 				else if (t.dataset.act === 'back') {
@@ -740,6 +884,7 @@
 				}
 			});
 			panel.addEventListener('input', function (e) {
+				if (e.target.dataset && e.target.dataset.fontq !== undefined) { fontUI.q = e.target.value; renderFontList(); return; }
 				var k = e.target.dataset && e.target.dataset.custom;
 				if (!k) return;
 				if (pendingCustom) { pushHistory(pendingCustom); pendingCustom = null; }
@@ -756,13 +901,14 @@
 				if (e.metaKey || e.ctrlKey || e.altKey) return;
 				if (/^(input|textarea|select)$/i.test(e.target.tagName)) return;
 				if (e.key === 's' || e.key === 'S') { shuffle(); e.preventDefault(); }
+				else if (e.key === 'f' || e.key === 'F') { randomFont(); e.preventDefault(); }
 				else if (e.key === 'Escape') { panel.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
 			});
 
 			// Pasting or editing a #hash in the same tab doesn't reload the page, so follow it.
 			window.addEventListener('hashchange', function () {
 				var next = readHash(), locks = state.locks;
-				if (JSON.stringify(next.colors) === JSON.stringify(state.colors) && next.pool === state.pool) return;
+				if (JSON.stringify(next.colors) === JSON.stringify(state.colors) && next.pool === state.pool && next.font === state.font) return;
 				pushHistory();
 				state = next; state.locks = locks;
 				refresh();
@@ -770,6 +916,13 @@
 
 			state = readHash();
 			refresh();
+
+			fetch('google-fonts.json').then(function (r) { return r.json(); }).then(function (list) {
+				fonts = list;
+				list.forEach(function (f) { fontIdx[f[0]] = f; });
+				apply(); updateFontUI();
+				if (fontUI.open) renderFontList();
+			}).catch(function () { var c = $('bs-fontcount'); if (c) c.textContent = 'font list unavailable'; });
 		})();
 		</script>
 	</body>
