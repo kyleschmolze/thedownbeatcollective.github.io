@@ -8,15 +8,15 @@
 		<meta name="keywords" content="The Downbeat Collective">
 		<meta name="author" content="The Downbeat Collective">
 
-		<link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,700|Caveat:400" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,700|Caveat:400|Moon+Dance" rel="stylesheet">
 		<link rel="stylesheet" href="../css/normalize.css" />
 		<link rel="stylesheet" href="../css/index.css" />
 		<style>
 			/* Color roles. The switcher at the bottom of the page rewrites these live. */
 			:root {
-				--bg: #d5c67a; --surface: #ffffff; --ink: #171a21;
-				--heading: #006da5; --tile: #6dbad7; --link: #171a21; --tag: #006da5; --tile-ink: #000000;
-				--heading-font: 'Caveat', cursive;
+				--bg: #6dbad7; --surface: #ffffff; --ink: #13070c;
+				--heading: #13070c; --tile: #006da5; --link: #13070c; --tag: #de6449; --tile-ink: #ffffff;
+				--heading-font: 'Moon Dance', cursive;
 				--muted: color-mix(in srgb, var(--ink) 72%, var(--surface));
 				--line: color-mix(in srgb, var(--ink) 14%, transparent);
 			}
@@ -632,12 +632,22 @@
 				ROLES.forEach(function (r) { colors[r.key] = d[r.key]; });
 				return { pool: pool, colors: colors, locks: {}, font: DEFAULT_FONT, custom: null };
 			}
+			// What you see when the page is opened with no #hash. The "Palette A / B" buttons still load their own designed defaults.
+			var LAUNCH = {
+				pool: 'b', font: 'Moon Dance',
+				colors: { bg: '#6dbad7', surface: '#ffffff', ink: '#13070c', heading: '#13070c', tile: '#006da5', link: '#13070c', tag: '#de6449' },
+				custom: ['#a0ecd0', '#006da5', '#88bb92', '#7b886b', '#171a21']
+			};
+			function launchState() {
+				return { pool: LAUNCH.pool, colors: Object.assign({}, LAUNCH.colors), locks: {}, font: LAUNCH.font, custom: LAUNCH.custom.slice() };
+			}
 			function snapshot() { return JSON.stringify({ pool: state.pool, colors: state.colors, locks: state.locks, font: state.font, custom: state.custom }); }
 			function pushHistory(snap) { history.push(snap || snapshot()); if (history.length > 60) history.shift(); }
 
 			function readHash() {
 				var p = {};
 				location.hash.replace(/^#/, '').split('&').forEach(function (kv) { var a = kv.split('='); if (a[0]) p[a[0]] = a[1]; });
+				if (!Object.keys(p).length) return launchState();
 				var custom = (p.custom || '').split('-');
 				var customOk = custom.length >= 2 && custom.length <= PAL_MAX && custom.every(function (c) { return /^[0-9a-f]{6}$/i.test(c); });
 				var pool = (p.pool === 'mix' || PALETTES[p.pool] || (p.pool === 'custom' && customOk)) ? p.pool : 'a';
@@ -698,7 +708,8 @@
 			// google-fonts.json is [family, category, weight?] for every Google Fonts family with Latin glyphs (icon fonts left out).
 			// To refresh it: https://api.fontsource.org/v1/fonts?subsets=latin&type=google
 			// Only the picked font is downloaded in full; list rows load a tiny name-only subset as they scroll into view.
-			var fonts = [], fontIdx = {}, loadedFull = { Caveat: true }, loadedPrev = {}, fontUI = { open: false, q: '', cat: 'all' };
+			var fonts = [], fontIdx = {}, loadedFull = { Caveat: true, 'Moon Dance': true }, // both are in the <head> link
+				loadedPrev = {}, fontUI = { open: false, q: '', cat: 'all' };
 			var CATS = [['all', 'All'], ['handwriting', 'Handwriting'], ['display', 'Display'], ['serif', 'Serif'], ['sans-serif', 'Sans'], ['monospace', 'Mono']];
 			var GENERIC = { 'sans-serif': 'sans-serif', serif: 'serif', monospace: 'monospace', handwriting: 'cursive', display: 'cursive' };
 
