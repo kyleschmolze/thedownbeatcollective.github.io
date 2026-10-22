@@ -555,19 +555,6 @@ GEO:37.854171699999995;-122.2934207
 STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
-DTSTART:20261024T183000Z
-DTEND:20261024T210000Z
-ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
-UID:evt-GagHofD0Vyf9MxG@events.lu.ma
-SUMMARY:Unbroken Flow at the Lake
-DESCRIPTION:Get up-to-date information at: https://luma.com/r7hnnwei\n\nAd
- dress:\nEdoff Memorial Bandstand at Lake Merritt\nOakland, CA\nUnited Stat
- es\n\nHosted by The Downbeat
-LOCATION:Edoff Memorial Bandstand at Lake Merritt, Oakland, CA 94610, USA
-GEO:37.8077463;-122.26015950000001
-STATUS:TENTATIVE
-END:VEVENT
-BEGIN:VEVENT
 DTSTART:20261027T010000Z
 DTEND:20261027T040000Z
 ORGANIZER;CN="The Downbeat":MAILTO:calendar-invite@lu.ma
