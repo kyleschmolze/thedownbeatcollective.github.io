@@ -103,6 +103,40 @@ SUMMARY:Berkeley | Briony Greenhill concert
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
+DTSTART:20261101T223000Z
+DTEND:20261102T003000Z
+UID:4pjcul2b54nr4dllaa7gi8b4ng@google.com
+CREATED:20261030T220748Z
+DESCRIPTION:Communal singing experience - rock\, pop\, folk\, R&B\, movie m
+ usic and more. Acoustic instruments welcome. Lyrics and chords provided. 🎶
+  Tickets $15 in advance\, $20 day-of. Kids attend free. Doors 2pm. Food and
+  bar available. https://singjam.org/jam/9ur49hzp
+LAST-MODIFIED:20261030T220920Z
+LOCATION:The Starry Plough Pub\, 3101 Shattuck Ave.\, Berkeley\, CA 94705\,
+  USA
+STATUS:CONFIRMED
+SUMMARY:SingJam
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20261122T050000Z
+DTEND:20261122T063000Z
+UID:6k61sblb70qr77fd1hfn4s0iq1@google.com
+CREATED:20261030T221046Z
+DESCRIPTION:SingJam is a communal singing experience featuring rock\, pop\,
+  folk\, R&amp\;B\, traditional\, movie music and more. Lyrics and chords pr
+ ovided. Acoustic instruments welcome. Doors 8:30pm\, Jam 9pm. $15 in advanc
+ e\, $20 at the door. Kids 12 and under free. Bar and Late Night Menu availa
+ ble. Tickets: <a href="https://singjam.org/jam/8vskvntz">https://singjam.or
+ g/jam/8vskvntz</a>
+LAST-MODIFIED:20261030T221046Z
+LOCATION:Heads and Tails Barbecue\, 2121 San Pablo Ave\, Berkeley\, CA 9470
+ 2\, USA
+STATUS:CONFIRMED
+SUMMARY:SingJam
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
 DTSTART;TZID=America/Los_Angeles:20241125T120000
 DTEND;TZID=America/Los_Angeles:20241125T133000
 RRULE:FREQ=WEEKLY;UNTIL=20261026T065959Z;BYDAY=MO
