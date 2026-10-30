@@ -61,6 +61,13 @@
 			}
 			.cal-img { display: block; margin: 0 0 10px; }
 			.cal-img img { display: block; width: 100%; aspect-ratio: 2.2 / 1; object-fit: cover; border-radius: 8px; background: color-mix(in srgb, var(--ink) 10%, var(--surface)); }
+			.cal-link { background: none; border: 0; padding: 0; font: inherit; color: var(--link); text-decoration: underline; cursor: pointer; }
+			.cal-modal { max-width: 480px; width: calc(100% - 32px); padding: 24px; border: 0; border-radius: 12px; background: var(--surface); color: var(--ink); box-shadow: 0 8px 32px rgba(0,0,0,.25); }
+			.cal-modal::backdrop { background: rgba(0,0,0,.5); }
+			.cal-modal h2 { font-size: 36px; font-weight: normal; margin: 0 0 8px; color: var(--heading); }
+			.cal-modal p, .cal-modal li { font-size: 16px; font-weight: 400; line-height: 1.5; }
+			.cal-modal ol { padding-left: 20px; }
+			.cal-modal button.cal-close { display: block; margin: 16px 0 0 auto; padding: 6px 16px; font: inherit; font-size: 15px; border: 0; border-radius: 8px; background: var(--tile); color: var(--tile-ink); cursor: pointer; }
 			.cal-status { text-align: center; padding: 30px 0; font-weight: 400; }
 			.cal-status a { color: var(--link); }
 			@media (max-width: 420px) {
@@ -78,11 +85,31 @@
 				Community singing events collected from the wider
 				<a href="../">Downbeat Collective</a>
 				and vocal improv community in the Bay Area.
+				<button type="button" class="cal-link" id="add-events-link">Add events to this calendar</button>
 			</p>
 		</header>
 		<main class="cal" id="cal">
 			<div class="cal-status">Loading events&hellip;</div>
 		</main>
+
+		<dialog class="cal-modal" id="add-events-modal">
+			<h2>Add events to this calendar</h2>
+			<p>
+				Anyone with permission can add events to a shared Google Calendar called
+				<strong>NorCal Vocal Improv + Community Singing Events</strong>.
+				To get permission, email
+				<a href="mailto:norcal-vocal-improv-and-singing@googlegroups.com">norcal-vocal-improv-and-singing@googlegroups.com</a>
+				and ask to be added.
+			</p>
+			<p>Once you have access:</p>
+			<ol>
+				<li>Open your own calendar app (Google Calendar, Apple Calendar, etc.) and add your event to the <strong>NorCal Vocal Improv + Community Singing Events</strong> calendar.</li>
+				<li>Check that it shows up on the
+					<a href="https://calendar.google.com/calendar/u/0/embed?src=06093b94873d5bcca7b4acaebde9cd8b7e8f40822f3dce5a3eccfdf84d162930@group.calendar.google.com&amp;ctz=America/Los_Angeles&amp;csspa=1" target="_blank" rel="noopener">shared calendar</a>.</li>
+				<li>This page will pick it up within 30 minutes.</li>
+			</ol>
+			<button type="button" class="cal-close" id="add-events-close">Close</button>
+		</dialog>
 
 		<script>
 		(function () {
@@ -90,6 +117,12 @@
 			var DISPLAY_TZ = 'America/Los_Angeles';
 			var HORIZON_DAYS = 180;
 			var root = document.getElementById('cal');
+
+			// "Add events" modal
+			var modal = document.getElementById('add-events-modal');
+			document.getElementById('add-events-link').addEventListener('click', function () { modal.showModal(); });
+			document.getElementById('add-events-close').addEventListener('click', function () { modal.close(); });
+			modal.addEventListener('click', function (e) { if (e.target === modal) modal.close(); });
 
 			// Neither feed sends CORS headers, so browsers can't read them directly.
 			// A GitHub Action (.github/workflows/sync-calendar.yml) mirrors them next to this page.
