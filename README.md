@@ -18,7 +18,7 @@ Then open http://localhost:8000. Use `PORT=3000 ./dev.sh` for another port. A se
 |---|---|
 | `index.html`, `subscribe.html` | Home page and Luma subscribe instructions |
 | `css/`, `img/` | Styles and images |
-| `calendar/` | `/calendar`: events as cards, from the Google Calendar + Luma feeds |
+| `calendar/` | `/calendar`: events as a list of cards or a month grid (List/Grid toggle, `#grid` links straight to it), from the Google Calendar + Luma feeds |
 | `calendar-colors/` | `/calendar-colors`: unlisted copy with a brand color + heading font playground |
 
 ## Calendar data

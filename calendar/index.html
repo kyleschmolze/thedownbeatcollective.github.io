@@ -70,6 +70,83 @@
 			.cal-modal button.cal-close { display: block; margin: 16px 0 0 auto; padding: 6px 16px; font: inherit; font-size: 15px; border: 0; border-radius: 8px; background: var(--tile); color: var(--tile-ink); cursor: pointer; }
 			.cal-status { text-align: center; padding: 30px 0; font-weight: 400; }
 			.cal-status a { color: var(--link); }
+
+			/* List / Grid toggle */
+			.cal-toolbar { display: flex; justify-content: center; margin: 18px 0 0; }
+			.cal-toolbar[hidden] { display: none; }
+			.cal-toggle {
+				display: inline-flex; gap: 2px; padding: 4px; border-radius: 999px;
+				background: color-mix(in srgb, var(--surface) 55%, transparent); box-shadow: inset 0 0 0 1px var(--line);
+			}
+			.cal-toggle button {
+				display: inline-flex; align-items: center; gap: 7px; padding: 7px 18px; border: 0; border-radius: 999px;
+				background: none; color: var(--ink); font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+				transition: background .15s, color .15s, box-shadow .15s;
+			}
+			.cal-toggle button:hover { background: color-mix(in srgb, var(--surface) 60%, transparent); }
+			.cal-toggle button[aria-pressed="true"] { background: var(--tile); color: var(--tile-ink); box-shadow: 0 1px 4px rgba(0,0,0,.18); }
+			.cal-toggle svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+			/* Month grid */
+			.cal.is-grid { max-width: 1040px; }
+			.grid-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 28px 0 12px; }
+			.grid-head .cal-month { margin: 0; }
+			.grid-nav { display: flex; gap: 8px; }
+			.grid-nav button {
+				width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--surface); color: var(--ink);
+				font: inherit; font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.08);
+			}
+			.grid-nav button:disabled { opacity: .4; cursor: default; }
+			.grid {
+				display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 1px;
+				background: color-mix(in srgb, var(--ink) 12%, var(--surface)); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+			}
+			.grid-dow {
+				background: var(--surface); padding: 8px 4px; text-align: center; font-size: 12px; font-weight: 700;
+				text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
+			}
+			.cal-cell {
+				display: flex; flex-direction: column; gap: 4px; min-width: 0; min-height: 120px; padding: 6px;
+				border: 0; background: var(--surface); color: inherit; font: inherit; text-align: left;
+			}
+			button.cal-cell { cursor: pointer; transition: background .12s; }
+			button.cal-cell:hover { background: color-mix(in srgb, var(--tile) 7%, var(--surface)); }
+			.cal-cell.blank { background: color-mix(in srgb, var(--ink) 4%, var(--surface)); }
+			.cal-cell.past > * { opacity: .5; }
+			.cell-num { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-size: 13px; font-weight: 700; }
+			.cal-cell.today .cell-num { background: var(--tag); color: #fff; }
+			.cell-img { position: relative; display: block; }
+			.cell-img img {
+				display: block; width: 100%; aspect-ratio: 800 / 420; object-fit: cover; border-radius: 6px;
+				background: color-mix(in srgb, var(--ink) 10%, var(--surface)); box-shadow: 0 0 0 2px var(--tag);
+			}
+			.cell-img .cell-time {
+				position: absolute; left: 4px; bottom: 4px; padding: 0 5px; border-radius: 4px;
+				background: var(--tag); color: #fff; font-size: 10.5px; font-weight: 700; line-height: 1.5;
+			}
+			.cell-chips { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+			.chip {
+				display: block; padding: 2px 6px; border-left: 3px solid var(--c); border-radius: 4px;
+				background: color-mix(in srgb, var(--c) 15%, var(--surface)); color: var(--ink);
+				font-size: 11.5px; font-weight: 700; line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+			}
+			.chip .t { font-weight: 400; margin-right: 4px; color: var(--muted); }
+			.cell-more { font-size: 11px; font-weight: 700; color: var(--muted); padding-left: 2px; }
+			.grid-note { text-align: center; margin: 14px 0 0; font-size: 14px; font-weight: 400; }
+			.cal-day-modal { max-width: 640px; background: var(--bg); }
+			.cal-day-modal h2 { margin-bottom: 14px; outline: none; }
+			@media (max-width: 640px) {
+				.grid-head .cal-month { font-size: 28px; }
+				.cal-cell { min-height: 72px; padding: 3px; gap: 3px; }
+				.cell-num { width: 20px; height: 20px; font-size: 11px; }
+				.cell-img { margin: 0 1.5px; }
+				.cell-img img { border-radius: 3px; box-shadow: 0 0 0 1.5px var(--tag); }
+				.cell-img .cell-time, .cell-more { display: none; }
+				.cell-chips { flex-direction: row; flex-wrap: wrap; gap: 3px; padding-left: 2px; }
+				.chip { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: var(--c); font-size: 0; }
+				.grid-dow { font-size: 10px; padding: 6px 0; letter-spacing: 0; }
+			}
+
 			@media (max-width: 420px) {
 				header { padding: 24px 16px 0; }
 				header h1 { font-size: 40px; }
@@ -88,6 +165,16 @@
 				<button type="button" class="cal-link" id="add-events-link">Add events to this calendar</button>
 			</p>
 		</header>
+		<div class="cal-toolbar" id="cal-toolbar" hidden>
+			<div class="cal-toggle" role="group" aria-label="Calendar view">
+				<button type="button" data-view="list" aria-pressed="true">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>List
+				</button>
+				<button type="button" data-view="grid" aria-pressed="false">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 10h18M9 4v17M15 4v17"/></svg>Grid
+				</button>
+			</div>
+		</div>
 		<main class="cal" id="cal">
 			<div class="cal-status">Loading events&hellip;</div>
 		</main>
@@ -115,6 +202,12 @@
 				<li>This page will pick it up within 30 minutes.</li>
 			</ol>
 			<button type="button" class="cal-close" id="add-events-close">Close</button>
+		</dialog>
+
+		<dialog class="cal-modal cal-day-modal" id="day-modal">
+			<h2 id="day-modal-title" tabindex="-1" autofocus></h2>
+			<div id="day-modal-body"></div>
+			<button type="button" class="cal-close" id="day-modal-close">Close</button>
 		</dialog>
 
 		<script>
@@ -312,8 +405,7 @@
 				return out;
 			}
 
-			function buildOccurrences(events) {
-				var now = new Date(), from = new Date(now.getTime() - 864e5 * 0), to = new Date(now.getTime() + HORIZON_DAYS * 864e5);
+			function buildOccurrences(events, from, to) {
 				var overrides = {};
 				events.forEach(function (e) {
 					if (e.recurrenceId) overrides[e.uid + '|' + e.recurrenceId.date.getTime()] = e;
@@ -487,7 +579,16 @@
 				return c;
 			}
 
-			function render(occ) {
+			function footer() {
+				var foot = el('div', 'cal-status');
+				foot.appendChild(document.createTextNode('Times shown in Pacific Time. '));
+				var a = el('a', null, 'Open in Google Calendar');
+				a.href = 'https://calendar.google.com/calendar/u/1/embed?src=' + encodeURIComponent(CAL_ID) + '&ctz=' + DISPLAY_TZ;
+				foot.appendChild(a);
+				return foot;
+			}
+
+			function renderList(occ) {
 				root.innerHTML = '';
 				if (!occ.length) {
 					var s = el('div', 'cal-status', 'No upcoming events right now. Check back soon!');
@@ -502,13 +603,149 @@
 					}
 					root.appendChild(card(o));
 				});
-				var foot = el('div', 'cal-status');
-				foot.appendChild(document.createTextNode('Times shown in Pacific Time. '));
-				var a = el('a', null, 'Open in Google Calendar');
-				a.href = 'https://calendar.google.com/calendar/u/1/embed?src=' + encodeURIComponent(CAL_ID) + '&ctz=' + DISPLAY_TZ;
-				foot.appendChild(a);
-				root.appendChild(foot);
+				root.appendChild(footer());
 			}
+
+			// ---------- Month grid ----------
+			// Non-Downbeat events get a stable color per title, so a recurring series looks the same every week.
+			var CHIP_COLORS = ['#006da5', '#2a9d8f', '#7a5195', '#e9a23b', '#c0507a', '#5b8c3a', '#3d5a80', '#b5651d'];
+			function chipColor(s) {
+				var h = 0;
+				for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+				return CHIP_COLORS[Math.abs(h) % CHIP_COLORS.length];
+			}
+
+			function dayKey(y, m, d) { return y + '-' + m + '-' + d; } // m is 0-based
+
+			var dayModal = document.getElementById('day-modal');
+			document.getElementById('day-modal-close').addEventListener('click', function () { dayModal.close(); });
+			dayModal.addEventListener('click', function (e) { if (e.target === dayModal) dayModal.close(); });
+
+			function openDay(date, list) {
+				document.getElementById('day-modal-title').textContent = fmt(date, { weekday: 'long', month: 'long', day: 'numeric' });
+				var body = document.getElementById('day-modal-body');
+				body.innerHTML = '';
+				list.forEach(function (o) { body.appendChild(card(o)); });
+				dayModal.showModal();
+				dayModal.scrollTop = 0;
+			}
+
+			var gridOffset = 0;
+
+			function renderGrid(occ) {
+				// Bucket occurrences by every Pacific-time day they touch.
+				var byDay = {};
+				occ.forEach(function (o) {
+					var s = parts(o.start), e = parts(o.allDay ? new Date(o.end.getTime() - 1) : o.end);
+					var t = Date.UTC(s.year, s.month - 1, s.day), last = Date.UTC(e.year, e.month - 1, e.day);
+					for (var i = 0; t <= last && i < 31; t += 864e5, i++) {
+						var d = new Date(t), k = dayKey(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+						(byDay[k] = byDay[k] || []).push(o);
+					}
+				});
+
+				var now = parts(new Date()), end = parts(new Date(Date.now() + HORIZON_DAYS * 864e5));
+				var maxOffset = (end.year - now.year) * 12 + (end.month - now.month);
+				var todayKey = dayKey(now.year, now.month - 1, now.day);
+
+				function draw() {
+					root.innerHTML = '';
+					var first = new Date(Date.UTC(now.year, now.month - 1 + gridOffset, 1));
+					var y = first.getUTCFullYear(), m = first.getUTCMonth();
+					var daysIn = new Date(Date.UTC(y, m + 1, 0)).getUTCDate(), lead = first.getUTCDay();
+
+					var head = el('div', 'grid-head');
+					head.appendChild(el('h2', 'cal-month', fmt(zonedToDate(y, m, 15, 12, 0, 0, DISPLAY_TZ), { month: 'long', year: 'numeric' })));
+					var nav = el('div', 'grid-nav');
+					[['‹', 'Previous month', -1], ['›', 'Next month', 1]].forEach(function (b) {
+						var btn = el('button', null, b[0]);
+						btn.type = 'button'; btn.setAttribute('aria-label', b[1]);
+						var next = gridOffset + b[2];
+						btn.disabled = next < 0 || next > maxOffset;
+						btn.onclick = function () { gridOffset = next; draw(); };
+						nav.appendChild(btn);
+					});
+					head.appendChild(nav);
+					root.appendChild(head);
+
+					var grid = el('div', 'grid');
+					for (var w = 0; w < 7; w++) {
+						grid.appendChild(el('div', 'grid-dow', fmt(zonedToDate(2026, 0, 4 + w, 12, 0, 0, DISPLAY_TZ), { weekday: 'short' })));
+					}
+					for (var b = 0; b < lead; b++) grid.appendChild(el('div', 'cal-cell blank'));
+					for (var d = 1; d <= daysIn; d++) grid.appendChild(cell(y, m, d));
+					var trail = (7 - (lead + daysIn) % 7) % 7;
+					for (var t = 0; t < trail; t++) grid.appendChild(el('div', 'cal-cell blank'));
+					root.appendChild(grid);
+
+					var note = el('p', 'grid-note');
+					note.innerHTML = 'Days with a picture are <strong>official Downbeat events</strong>. Tap a day for details.';
+					root.appendChild(note);
+					root.appendChild(footer());
+				}
+
+				function cell(y, m, d) {
+					var k = dayKey(y, m, d), list = byDay[k] || [];
+					var c = el(list.length ? 'button' : 'div', 'cal-cell');
+					if (list.length) {
+						c.type = 'button';
+						c.setAttribute('aria-label', fmt(zonedToDate(y, m, d, 12, 0, 0, DISPLAY_TZ), { weekday: 'long', month: 'long', day: 'numeric' }) +
+							', ' + list.length + (list.length === 1 ? ' event' : ' events'));
+						c.onclick = function () { openDay(zonedToDate(y, m, d, 12, 0, 0, DISPLAY_TZ), list); };
+					}
+					if (k === todayKey) c.classList.add('today');
+					else if (Date.UTC(y, m, d) < Date.UTC(now.year, now.month - 1, now.day)) c.classList.add('past');
+					c.appendChild(el('span', 'cell-num', String(d)));
+
+					var chips = el('div', 'cell-chips'), shown = 0, MAX = 3;
+					list.forEach(function (o) {
+						var luma = o.ev.source === 'luma' ? lumaExtras(o.ev) : null;
+						var src = luma && luma.url && lumaImages[luma.url];
+						if (src) {
+							var wrap = el('span', 'cell-img'), img = el('img');
+							img.src = src; img.alt = o.ev.summary || ''; img.loading = 'lazy';
+							wrap.appendChild(img);
+							if (!o.allDay) wrap.appendChild(el('span', 'cell-time', fmt(o.start, { hour: 'numeric', minute: '2-digit' }).replace(':00', '')));
+							c.appendChild(wrap);
+							return;
+						}
+						if (shown++ >= MAX) return;
+						var chip = el('span', 'chip');
+						chip.style.setProperty('--c', luma ? 'var(--tag)' : chipColor(o.ev.summary || ''));
+						if (!o.allDay) chip.appendChild(el('span', 't', fmt(o.start, { hour: 'numeric', minute: '2-digit' }).replace(':00', '').replace(/ ([AP])M/, function (_, x) { return x.toLowerCase(); })));
+						chip.appendChild(document.createTextNode(o.ev.summary || '(No title)'));
+						chip.title = o.ev.summary || '';
+						chips.appendChild(chip);
+					});
+					if (shown) c.appendChild(chips);
+					if (shown > MAX) c.appendChild(el('span', 'cell-more', '+' + (shown - MAX) + ' more'));
+					return c;
+				}
+
+				draw();
+			}
+
+			// ---------- View toggle ----------
+			var listOcc = [], gridOcc = [], loaded = false;
+			var VIEW_KEY = 'downbeat-cal-view';
+			var view = location.hash === '#grid' ? 'grid' : location.hash === '#list' ? 'list' : null;
+			if (!view) { try { view = localStorage.getItem(VIEW_KEY); } catch (e) {} }
+			if (view !== 'grid') view = 'list';
+			var toggles = document.querySelectorAll('.cal-toggle button');
+
+			function setView(v) {
+				view = v;
+				Array.prototype.forEach.call(toggles, function (b) { b.setAttribute('aria-pressed', String(b.dataset.view === v)); });
+				root.classList.toggle('is-grid', v === 'grid');
+				try { localStorage.setItem(VIEW_KEY, v); } catch (e) {}
+				history.replaceState(null, '', v === 'grid' ? '#grid' : location.pathname + location.search);
+				if (!loaded) return;
+				if (v === 'grid') renderGrid(gridOcc); else renderList(listOcc);
+			}
+			Array.prototype.forEach.call(toggles, function (b) {
+				b.addEventListener('click', function () { if (view !== b.dataset.view) setView(b.dataset.view); });
+			});
+			setView(view);
 
 			// Optional: Luma cover images, built by the sync workflow. Cards just skip the image without it.
 			function fetchLumaImages() {
@@ -521,7 +758,14 @@
 				lumaImages = res[1];
 				var events = [];
 				res[0].forEach(function (f) { events = events.concat(parseEvents(f.text, f.source)); });
-				render(buildOccurrences(events));
+				var now = new Date(), p = parts(now);
+				var to = new Date(now.getTime() + HORIZON_DAYS * 864e5);
+				listOcc = buildOccurrences(events, now, to);
+				// The grid also shows earlier days of the current month.
+				gridOcc = buildOccurrences(events, zonedToDate(p.year, p.month - 1, 1, 0, 0, 0, DISPLAY_TZ), to);
+				loaded = true;
+				document.getElementById('cal-toolbar').hidden = false;
+				setView(view);
 			}).catch(function () {
 				root.innerHTML = '';
 				var s = el('div', 'cal-status', 'Sorry, we couldn’t load the calendar. ');
