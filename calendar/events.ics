@@ -105,12 +105,12 @@ END:VEVENT
 BEGIN:VEVENT
 DTSTART;TZID=America/Los_Angeles:20241125T120000
 DTEND;TZID=America/Los_Angeles:20241125T133000
-RRULE:FREQ=WEEKLY;BYDAY=MO
+RRULE:FREQ=WEEKLY;UNTIL=20261026T065959Z;BYDAY=MO
 UID:4opbv58lqjsis981rrlpqo5pb4@google.com
 CREATED:20241125T222834Z
 DESCRIPTION:<a href="https://secure.thefreight.org/overview/14171">https://
  secure.thefreight.org/overview/14171</a>
-LAST-MODIFIED:20241125T222843Z
+LAST-MODIFIED:20261030T041139Z
 LOCATION:Freight & Salvage\, 2020 Addison St\, Berkeley\, CA 94704\, USA
 STATUS:CONFIRMED
 SUMMARY:Berkeley | Bobby McFerrin + Motion
@@ -176,6 +176,21 @@ SUMMARY:The Downbeat Weekly Jam
 TRANSP:OPAQUE
 X-APPLE-CREATOR-IDENTITY:com.apple.calendar
 X-APPLE-CREATOR-TEAM-IDENTITY:0000000000
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20261026T120000
+DTEND;TZID=America/Los_Angeles:20261026T133000
+RRULE:FREQ=WEEKLY;BYDAY=MO
+UID:4opbv58lqjsis981rrlpqo5pb4_R20261026T190000@google.com
+CREATED:20241125T222834Z
+DESCRIPTION:Check the Freight's calendar to confirm showtimes: <a href="htt
+ ps://thefreight.org/shows/">https://thefreight.org/shows/</a> (sometimes th
+ ey change or cancel on holidays\, etc.)
+LAST-MODIFIED:20261030T041139Z
+LOCATION:Freight & Salvage\, 2020 Addison St\, Berkeley\, CA 94704\, USA
+STATUS:CONFIRMED
+SUMMARY:Berkeley | Bobby McFerrin + Motion
+TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
 DTSTART;VALUE=DATE:20250111
