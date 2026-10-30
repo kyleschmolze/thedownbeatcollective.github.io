@@ -3,10 +3,11 @@ PRODID:-//Google Inc//Google Calendar 70.9054//EN
 VERSION:2.0
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:NorCal Vocal Improv + Community Singing Events
+X-WR-CALNAME:Downbeat Community Singing Calendar
 X-WR-TIMEZONE:America/Los_Angeles
-X-WR-CALDESC:The purpose of this calendar is to make it easy to find vocal 
- improvisation and community singing events in Northern California.
+X-WR-CALDESC:This calendar is for community singing events in the Bay Area\
+ , where the people attending are the ones singing\, such as vocal improv ja
+ ms\, sing-alongs\, and drop-in community choirs. It's not for conce
 BEGIN:VTIMEZONE
 TZID:America/Los_Angeles
 X-LIC-LOCATION:America/Los_Angeles
