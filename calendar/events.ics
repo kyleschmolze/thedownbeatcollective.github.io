@@ -151,6 +151,24 @@ SUMMARY:SingJam
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
+DTSTART:20270207T210000Z
+DTEND:20270207T230000Z
+UID:6vsrtaiob6ect5bctvg3dn9ghu@google.com
+CREATED:20261112T194558Z
+DESCRIPTION:Always the first Sunday in February\, in honor of Fernando Barb
+ a\, founder of Brazil&#39\;s Barbatuques Boy Music Ensemble - Body Music ev
+ ents happen all over the world - with the intention of building community\,
+  growing skills and creating collective pulse. \n\nLocally\, we are often t
+ he last time zone to happen! \nMeet us at Ashkenaz so clap\, step\, sing\, 
+ improvise\, and play using the easiest instrument to play - yourself!
+LAST-MODIFIED:20261112T194558Z
+LOCATION:Ashkenaz Music & Dance Community Center\, 1317 San Pablo Ave\, Ber
+ keley\, CA 94702\, USA
+STATUS:CONFIRMED
+SUMMARY:*International Day of Body Music JAM*
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
 DTSTART;TZID=America/Los_Angeles:20241125T120000
 DTEND;TZID=America/Los_Angeles:20241125T133000
 RRULE:FREQ=WEEKLY;UNTIL=20261026T065959Z;BYDAY=MO
@@ -238,6 +256,32 @@ LAST-MODIFIED:20261030T041139Z
 LOCATION:Freight & Salvage\, 2020 Addison St\, Berkeley\, CA 94704\, USA
 STATUS:CONFIRMED
 SUMMARY:Berkeley | Bobby McFerrin + Motion
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20261129T130000
+DTEND;TZID=America/Los_Angeles:20261129T150000
+RRULE:FREQ=MONTHLY;BYDAY=-1SU
+EXDATE;TZID=America/Los_Angeles:20270131T130000
+UID:7jk44iq0jnio0sthbqdak2q0g5@google.com
+CREATED:20261112T194058Z
+DESCRIPTION:Email <a href="mailto:info@crosspulse.com" target="_blank">info
+ @crosspulse.com</a> for exact location.\nCheck <a href="https://www.google.
+ com/url?q=http://crosspulse.com/events&amp\;sa=D&amp\;source=calendar&amp\;
+ ust=1794944376360835&amp\;usg=AOvVaw3yF2DsU-4CEk9suPR9-LPU" target="_blank"
+ >crosspulse.com/events</a> for any cancelations\n\nSing\, Step\, Clap - Bod
+ y Music is the oldest music on the planet\, practiced in traditional and co
+ ntemporary applications around the world. Founders of the International Bod
+ y Music Festival\, and special guests\, lead this hosted JAM - where we imp
+ rovise and play\, while holding steady grooves and increasing capacity for 
+ moving and making music in time. \n\nModeled after Fritura Livre community 
+ gatherings in Sao Paolo\, Brazil - the name translates as &quot\;free&quot\
+ ; - the improvisation and play - &quot\;fry&quot\; how challenging yourself
+  in hands\, feet AND voice stimulates your brain!
+LAST-MODIFIED:20261112T194816Z
+LOCATION:Crosspulse Studio\, Oakland  
+STATUS:CONFIRMED
+SUMMARY:Free Fry Body Music Jam
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
